@@ -7,7 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Authentication\Shared.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Caching\Shared.Caching.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.ExceptionHandling\Shared.ExceptionHandling.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Logging\Shared.Logging.csproj" />
+    <ProjectReference Include="..\Notification.Application\Notification.Application.csproj" />
   </ItemGroup>
 
 </Project>
