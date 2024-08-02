@@ -53,3 +53,19 @@ app.MapHealthChecks("/health", new HealthCheckOptions
 
 app.Run();
 
+
+/* Migration commands
+ * Command Db
+ 
+ dotnet ef migrations add InitialCommandDb --context CommandDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Apartment\Apartment.WebApi\Apartment.WebApi.csproj
+  
+ dotnet ef database update --context CommandDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Apartment\Apartment.WebApi\Apartment.WebApi.csproj
+
+ * Query Db
+ 
+dotnet ef migrations add InitialQueryDb --context QueryDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Apartment\Apartment.WebApi\Apartment.WebApi.csproj
+ 
+dotnet ef database update --context QueryDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Apartment\Apartment.WebApi\Apartment.WebApi.csproj
+
+ */
+
