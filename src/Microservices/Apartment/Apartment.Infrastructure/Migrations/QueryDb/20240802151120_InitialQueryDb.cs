@@ -54,7 +54,7 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                     Name = table.Column<string>(type: "text", nullable: false),
                     SiteId = table.Column<string>(type: "text", nullable: true),
                     TotalUnits = table.Column<int>(type: "integer", nullable: false),
-                    //SiteQueryId = table.Column<string>(type: "text", nullable: true)
+                    SiteQueryId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,7 +76,7 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                     BlockId = table.Column<string>(type: "text", nullable: true),
                     UnitNo = table.Column<int>(type: "integer", nullable: false),
                     HasCar = table.Column<bool>(type: "boolean", nullable: false),
-                    //BlockQueryId = table.Column<string>(type: "text", nullable: true)
+                    BlockQueryId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
