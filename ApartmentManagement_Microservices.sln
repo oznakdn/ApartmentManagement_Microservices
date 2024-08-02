@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notification.WebSocket", "src\Microservices\Notification\Notification.WebSocket\Notification.WebSocket.csproj", "{C89EA824-E7A2-4D43-BF6B-17690ABF23B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{E2E60031-3C0D-4879-B116-33FB601DF15F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway.Ocelot", "src\Gateway\Gateway.Ocelot\Gateway.Ocelot.csproj", "{8F2061D3-F904-4313-8801-7562FBF69A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,10 @@ Global
 		{C89EA824-E7A2-4D43-BF6B-17690ABF23B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C89EA824-E7A2-4D43-BF6B-17690ABF23B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C89EA824-E7A2-4D43-BF6B-17690ABF23B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F2061D3-F904-4313-8801-7562FBF69A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F2061D3-F904-4313-8801-7562FBF69A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F2061D3-F904-4313-8801-7562FBF69A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F2061D3-F904-4313-8801-7562FBF69A7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +172,8 @@ Global
 		{B6849E3B-79D0-4B20-9F3B-AA1C68CB160F} = {E5D62520-6430-412B-B314-13941D793BE2}
 		{126827C3-E602-4863-83F6-EA1433A84B5F} = {E5D62520-6430-412B-B314-13941D793BE2}
 		{C89EA824-E7A2-4D43-BF6B-17690ABF23B4} = {E5D62520-6430-412B-B314-13941D793BE2}
+		{E2E60031-3C0D-4879-B116-33FB601DF15F} = {5F1A7290-F083-427B-A589-4A3C10AFF06A}
+		{8F2061D3-F904-4313-8801-7562FBF69A7B} = {E2E60031-3C0D-4879-B116-33FB601DF15F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3558D337-5CD4-4BC1-AF82-FE1A24EE2E1E}
