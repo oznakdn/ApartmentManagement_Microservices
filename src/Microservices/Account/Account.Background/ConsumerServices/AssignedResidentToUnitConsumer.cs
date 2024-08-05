@@ -36,15 +36,22 @@ public class AssignedResidentToUnitConsumer
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var dbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
+                var queryDbContext = scope.ServiceProvider.GetRequiredService<QueryDbContext>();
+                var commandDbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
 
-                var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ResidentId);
+                var userQuery = await commandDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ResidentId);
 
-                if (user is not null)
+                if (userQuery is not null)
                 {
-                    user.AssignUnit(dto.UnitId);
-                    dbContext.Users.Update(user);
-                    await dbContext.SaveChangesAsync();
+                    userQuery.AssignUnit(dto.UnitId);
+                    queryDbContext.Users.Update(userQuery);
+                    await queryDbContext.SaveChangesAsync();
+
+                    var userCommand = await commandDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ResidentId);
+                    userCommand.AssignUnit(dto.UnitId);
+                    commandDbContext.Users.Update(userCommand);
+                    await commandDbContext.SaveChangesAsync();
+
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Unit assigned to resident!");
                     Console.ResetColor();

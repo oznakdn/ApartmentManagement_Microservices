@@ -36,15 +36,22 @@ public class AssignedEmployeeToSiteConsumer
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var dbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
+                var queryDbContext = scope.ServiceProvider.GetRequiredService<QueryDbContext>();
+                var commandDbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
 
-                var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.EmployeeId);
+                var userQuery = await commandDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.EmployeeId);
 
-                if (user is not null)
+                if (userQuery is not null)
                 {
-                    user.AssignSite(dto.SiteId);
-                    dbContext.Users.Update(user);
-                    await dbContext.SaveChangesAsync();
+                    userQuery.AssignSite(dto.SiteId);
+                    queryDbContext.Users.Update(userQuery);
+                    await queryDbContext.SaveChangesAsync();
+
+                    var userCommand = await commandDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.EmployeeId);
+                    userCommand.AssignSite(dto.SiteId);
+                    commandDbContext.Users.Update(userCommand);
+                    await commandDbContext.SaveChangesAsync();
+
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Site assigned to employee.");
                     Console.ResetColor();
