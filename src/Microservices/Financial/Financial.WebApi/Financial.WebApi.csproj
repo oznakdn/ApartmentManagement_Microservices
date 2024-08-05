@@ -10,4 +10,24 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared.Authentication\Shared.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Caching\Shared.Caching.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.ExceptionHandling\Shared.ExceptionHandling.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Logging\Shared.Logging.csproj" />
+    <ProjectReference Include="..\Financial.Application\Financial.Application.csproj" />
+  </ItemGroup>
+
 </Project>
