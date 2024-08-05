@@ -1,4 +1,4 @@
-﻿using Apartment.Application.Notifications.AssignedManagerToSite;
+﻿using Apartment.Application.Events.AssignedManagerToSite;
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

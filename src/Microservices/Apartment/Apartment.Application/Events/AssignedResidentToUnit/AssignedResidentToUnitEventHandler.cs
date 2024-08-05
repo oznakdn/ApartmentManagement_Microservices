@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Apartment.Application.Notifications.AssignedResidentToUnit;
+namespace Apartment.Application.Events.AssignedResidentToUnit;
 
 public class AssignedResidentToUnitEventHandler : INotificationHandler<AssignedResidentToUnitEvent>
 {
@@ -14,8 +14,8 @@ public class AssignedResidentToUnitEventHandler : INotificationHandler<AssignedR
 
     public async Task Handle(AssignedResidentToUnitEvent args, CancellationToken cancellationToken)
     {
-        var site = await _dbContext.Units.SingleOrDefaultAsync(x => x.UnitId == args.UnitId, cancellationToken);
-        site.ResidentId = args.UserId;
+        var site = await _dbContext.Units.SingleOrDefaultAsync(x => x.Id == args.UnitId, cancellationToken);
+        site.AssignResident(args.UserId);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

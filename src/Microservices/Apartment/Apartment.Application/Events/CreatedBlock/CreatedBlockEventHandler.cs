@@ -1,9 +1,9 @@
-﻿using Apartment.Domain.QueryEntities;
+﻿using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Apartment.Application.Notifications.CreatedBlock;
+namespace Apartment.Application.Events.CreatedBlock;
 
 public class CreatedBlockEventHandler : INotificationHandler<CreatedBlockEvent>
 {
@@ -15,8 +15,11 @@ public class CreatedBlockEventHandler : INotificationHandler<CreatedBlockEvent>
 
     public async Task Handle(CreatedBlockEvent args, CancellationToken cancellationToken)
     {
-        var site = await _dbContext.Sites.SingleOrDefaultAsync(x => x.SiteId == args.SiteId);
-        var block = new BlockQuery(args.BlockId, args.Name, args.SiteId, args.TotalUnits);
+        var site = await _dbContext.Sites.SingleOrDefaultAsync(x => x.Id == args.SiteId);
+        var block = new Block(args.Name, args.SiteId, args.TotalUnits)
+        {
+            Id = args.Id
+        };
 
         site.AddBlock(block);
         _dbContext.Blocks.Add(block);

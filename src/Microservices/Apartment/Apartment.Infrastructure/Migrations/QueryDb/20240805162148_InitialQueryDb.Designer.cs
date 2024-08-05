@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Apartment.Infrastructure.Migrations
+namespace Apartment.Infrastructure.Migrations.QueryDb
 {
-    [DbContext(typeof(CommandDbContext))]
-    [Migration("20240802150912_InitialCommandDb")]
-    partial class InitialCommandDb
+    [DbContext(typeof(QueryDbContext))]
+    [Migration("20240805162148_InitialQueryDb")]
+    partial class InitialQueryDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

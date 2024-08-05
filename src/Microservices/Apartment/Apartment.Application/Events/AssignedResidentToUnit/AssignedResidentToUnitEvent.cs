@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Apartment.Application.Notifications.AssignedResidentToUnit;
+namespace Apartment.Application.Events.AssignedResidentToUnit;
 
 public record AssignedResidentToUnitEvent(string UserId, string UnitId) : INotification;
 

@@ -1,5 +1,4 @@
-﻿using Apartment.Domain.QueryEntities;
-using Apartment.Infrastructure.Context;
+﻿using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +22,7 @@ public class GetSiteDetailByManagerIdHandler : IRequestHandler<GetSiteDetailByMa
 
 
         return new GetSiteDetailByManagerIdResponse(
-            site.SiteId,
+            site.Id,
             site.Name,
             site.Address,
             site.Blocks.Select(x => new GetSiteDetailBlocks(x.Name, x.TotalUnits, x.AvailableUnits,

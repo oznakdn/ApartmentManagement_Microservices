@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Apartment.Infrastructure.Migrations.QueryDb
+namespace Apartment.Infrastructure.Migrations
 {
-    [DbContext(typeof(QueryDbContext))]
-    [Migration("20240802151120_InitialQueryDb")]
-    partial class InitialQueryDb
+    [DbContext(typeof(CommandDbContext))]
+    [Migration("20240805162114_InitialCommandDb")]
+    partial class InitialCommandDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,9 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.BlockQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Block", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BlockId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -39,9 +35,7 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                         .HasColumnType("text");
 
                     b.Property<string>("SiteId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SiteQueryId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("TotalUnits")
@@ -49,12 +43,12 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SiteQueryId");
+                    b.HasIndex("SiteId");
 
                     b.ToTable("Blocks");
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.SiteQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Site", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -70,24 +64,18 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("SiteId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("Sites");
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.UnitQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Unit", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("BlockId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("BlockQueryId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("HasCar")
@@ -96,21 +84,17 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                     b.Property<string>("ResidentId")
                         .HasColumnType("text");
 
-                    b.Property<string>("UnitId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<int>("UnitNo")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlockQueryId");
+                    b.HasIndex("BlockId");
 
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.VisitQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Visit", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -136,9 +120,6 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                         .HasColumnType("text");
 
                     b.Property<string>("UnitId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("VisitId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -147,26 +128,30 @@ namespace Apartment.Infrastructure.Migrations.QueryDb
                     b.ToTable("Visits");
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.BlockQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Block", b =>
                 {
-                    b.HasOne("Apartment.Domain.QueryEntities.SiteQuery", null)
+                    b.HasOne("Apartment.Domain.Entities.Site", null)
                         .WithMany("Blocks")
-                        .HasForeignKey("SiteQueryId");
+                        .HasForeignKey("SiteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.UnitQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Unit", b =>
                 {
-                    b.HasOne("Apartment.Domain.QueryEntities.BlockQuery", null)
+                    b.HasOne("Apartment.Domain.Entities.Block", null)
                         .WithMany("Units")
-                        .HasForeignKey("BlockQueryId");
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.BlockQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Block", b =>
                 {
                     b.Navigation("Units");
                 });
 
-            modelBuilder.Entity("Apartment.Domain.QueryEntities.SiteQuery", b =>
+            modelBuilder.Entity("Apartment.Domain.Entities.Site", b =>
                 {
                     b.Navigation("Blocks");
                 });

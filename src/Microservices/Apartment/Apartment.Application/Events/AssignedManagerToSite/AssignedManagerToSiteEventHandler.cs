@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Apartment.Application.Notifications.AssignedManagerToSite;
+namespace Apartment.Application.Events.AssignedManagerToSite;
 
 public class AssignedManagerToSiteEventHandler : INotificationHandler<AssignedManagerToSiteEvent>
 {
@@ -14,8 +14,8 @@ public class AssignedManagerToSiteEventHandler : INotificationHandler<AssignedMa
 
     public async Task Handle(AssignedManagerToSiteEvent args, CancellationToken cancellationToken)
     {
-        var site = await _dbContext.Sites.SingleOrDefaultAsync(x => x.SiteId == args.SiteId, cancellationToken);
-        site.ManagerId = args.ManagerId;
+        var site = await _dbContext.Sites.SingleOrDefaultAsync(x => x.Id == args.SiteId, cancellationToken);
+        site.AssignManager(args.ManagerId);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

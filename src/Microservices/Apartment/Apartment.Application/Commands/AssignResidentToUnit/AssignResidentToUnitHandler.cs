@@ -1,4 +1,4 @@
-﻿using Apartment.Application.Notifications.AssignedResidentToUnit;
+﻿using Apartment.Application.Events.AssignedResidentToUnit;
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

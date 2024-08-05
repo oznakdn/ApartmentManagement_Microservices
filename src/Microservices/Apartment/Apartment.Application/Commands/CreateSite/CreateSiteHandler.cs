@@ -1,4 +1,4 @@
-﻿using Apartment.Application.Notifications.CreatedSite;
+﻿using Apartment.Application.Events.CreatedSite;
 using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;

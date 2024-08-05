@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Apartment.Application.Notifications.CreatedUnits;
+namespace Apartment.Application.Events.CreatedUnits;
 
 public class CreatedUnitsEventHandler : INotificationHandler<CreatedUnitsEvent>
 {
@@ -15,11 +15,13 @@ public class CreatedUnitsEventHandler : INotificationHandler<CreatedUnitsEvent>
 
     public async Task Handle(CreatedUnitsEvent args, CancellationToken cancellationToken)
     {
-        var block = await _dbContext.Blocks.SingleOrDefaultAsync(x => x.BlockId == args.BlockId, cancellationToken);
+        var block = await _dbContext.Blocks.SingleOrDefaultAsync(x => x.Id == args.BlockId, cancellationToken);
+        var unit = new Domain.Entities.Unit(null, block.Id, args.UnitNo, false)
+        {
+            Id = args.Id
+        };
 
-        var unit = new Domain.QueryEntities.UnitQuery(null, args.UnitId, args.BlockId, args.UnitNo, hasCar: false);
         block.AddUnit(unit);
-
         _dbContext.Units.Add(unit);
         await _dbContext.SaveChangesAsync(cancellationToken);
 

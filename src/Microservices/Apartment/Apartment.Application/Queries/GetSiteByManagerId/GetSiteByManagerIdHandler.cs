@@ -20,7 +20,7 @@ public class GetSiteByManagerIdHandler : IRequestHandler<GetSiteByManagerIdReque
         if (site is null)
             return null;
 
-        return new GetSiteByManagerIdResponse(site.SiteId, site.Name,site.Address);
+        return new GetSiteByManagerIdResponse(site.Id, site.Name,site.Address);
 
     }
 }

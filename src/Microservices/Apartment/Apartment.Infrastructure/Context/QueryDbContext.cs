@@ -1,4 +1,4 @@
-﻿using Apartment.Domain.QueryEntities;
+﻿using Apartment.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apartment.Infrastructure.Context;
@@ -9,11 +9,11 @@ public class QueryDbContext : DbContext
     {
         
     }
-    
-    public DbSet<SiteQuery> Sites { get; set; }
-    public DbSet<BlockQuery> Blocks { get; set; }
-    public DbSet<UnitQuery> Units { get; set; }
-    public DbSet<VisitQuery> Visits { get; set; }
 
-   
+    public DbSet<Site> Sites { get; set; }
+    public DbSet<Block> Blocks { get; set; }
+    public DbSet<Unit> Units { get; set; }
+    public DbSet<Visit> Visits { get; set; }
+
+
 }

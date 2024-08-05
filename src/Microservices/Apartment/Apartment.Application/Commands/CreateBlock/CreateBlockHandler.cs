@@ -1,4 +1,4 @@
-﻿using Apartment.Application.Notifications.CreatedBlock;
+﻿using Apartment.Application.Events.CreatedBlock;
 using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;
