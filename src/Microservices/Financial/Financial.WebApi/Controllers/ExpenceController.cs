@@ -1,4 +1,5 @@
 ﻿using Financial.Application.Commands.CreateExpence;
+using Financial.Application.Commands.CreateExpenceItems;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,17 @@ public class ExpenceController(IMediator mediator) : ControllerBase
             return BadRequest(result.Errors);
 
         if(!result.Success && string.IsNullOrEmpty(result.Message))
+            return BadRequest(result.Message);
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateItems([FromBody] CreateExpenceItemsRequest request, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(request, cancellationToken);
+
+        if (!result.Success)
             return BadRequest(result.Message);
 
         return Ok(result);
