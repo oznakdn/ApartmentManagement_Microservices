@@ -24,7 +24,6 @@ public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, GetA
 
 
         return new GetAccountsResponse(account.Id,
-            account.UserId,
             account.FullName,
             account.Email,
             account.PhoneNumber,

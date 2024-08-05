@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Account.Application.Notifications.ChangedEmail;
+namespace Account.Application.Events.ChangedEmail;
 
 public class ChangedEmailEventHandler : INotificationHandler<ChangedEmailEvent>
 {
@@ -15,7 +15,7 @@ public class ChangedEmailEventHandler : INotificationHandler<ChangedEmailEvent>
     public async Task Handle(ChangedEmailEvent args, CancellationToken cancellationToken)
     {
         var account = await _dbContext.Users
-            .SingleOrDefaultAsync(x => x.UserId == args.UserId, cancellationToken);
+            .SingleOrDefaultAsync(x => x.Id == args.UserId, cancellationToken);
 
 
         account!.ChangeEmail(args.NewEmail);

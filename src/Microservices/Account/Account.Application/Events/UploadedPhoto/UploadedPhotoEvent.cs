@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace Account.Application.Notifications.UploadedPhoto;
+namespace Account.Application.Events.UploadedPhoto;
 
 public record UploadedPhotoEvent(string UserId, string PictureUrl) : INotification;

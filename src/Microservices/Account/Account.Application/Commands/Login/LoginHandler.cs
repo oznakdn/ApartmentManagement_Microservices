@@ -1,4 +1,5 @@
-﻿using Account.Application.Helpers.Token;
+﻿using Account.Application.Events.Logined;
+using Account.Application.Helpers.Token;
 using Account.Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -9,13 +10,15 @@ namespace Account.Application.Commands.Login;
 public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
 {
     private readonly UserManager<User> _userManager;
+    private readonly IMediator _eventHandler;
     private readonly JwtTokenHelper _tokenHelper;
     private readonly IValidator<LoginRequest> _validator;
-    public LoginHandler(UserManager<User> userManager, JwtTokenHelper tokenHelper, IValidator<LoginRequest> validator)
+    public LoginHandler(UserManager<User> userManager, JwtTokenHelper tokenHelper, IValidator<LoginRequest> validator, IMediator eventHandler)
     {
         _userManager = userManager;
         _tokenHelper = tokenHelper;
         _validator = validator;
+        _eventHandler = eventHandler;
     }
 
     public async Task<LoginResponse> Handle(LoginRequest request, CancellationToken cancellationToken)
@@ -43,6 +46,9 @@ public class LoginHandler : IRequestHandler<LoginRequest, LoginResponse>
 
         user.SetRefreshToken(token.RefreshToken, token.RefreshExpIn);
         await _userManager.UpdateAsync(user);
+
+
+        await _eventHandler.Publish(new LoginedEvent(user.Id, token.RefreshToken, token.RefreshExpIn));
 
         return new LoginResponse(true, "Login Successful!", Response: new Response(
             user.Id,

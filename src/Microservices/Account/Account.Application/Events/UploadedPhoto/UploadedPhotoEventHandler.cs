@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Account.Application.Notifications.UploadedPhoto;
+namespace Account.Application.Events.UploadedPhoto;
 
 public class UploadedPhotoEventHandler : INotificationHandler<UploadedPhotoEvent>
 {
@@ -16,7 +16,7 @@ public class UploadedPhotoEventHandler : INotificationHandler<UploadedPhotoEvent
     public async Task Handle(UploadedPhotoEvent args, CancellationToken cancellationToken)
     {
         var account = await _dbContext.Users
-            .SingleOrDefaultAsync(x => x.UserId == args.UserId, cancellationToken);
+            .SingleOrDefaultAsync(x => x.Id == args.UserId, cancellationToken);
 
         account!.UploadPicture(args.PictureUrl);
 

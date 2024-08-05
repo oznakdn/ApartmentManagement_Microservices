@@ -1,4 +1,4 @@
-﻿using Account.Domain.QueryEntities;
+﻿using Account.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Account.Infrastructure.Contexts;
@@ -10,5 +10,5 @@ public class QueryDbContext : DbContext
 
     }
 
-    public DbSet<UserQuery> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 }

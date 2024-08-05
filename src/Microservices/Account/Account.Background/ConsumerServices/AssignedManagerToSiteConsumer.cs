@@ -36,15 +36,23 @@ public class AssignedManagerToSiteConsumer
             {
                 using var scope = _serviceProvider.CreateScope();
 
-                var dbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
+                var queryDbContext = scope.ServiceProvider.GetRequiredService<QueryDbContext>();
+                var commandDbContext = scope.ServiceProvider.GetRequiredService<CommandDbContext>();
 
-                var user = await dbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ManagerId);
+                var userQuery = await queryDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ManagerId);
 
-                if (user is not null)
+                if (userQuery is not null)
                 {
-                    user.AssignSite(dto.SiteId);
-                    dbContext.Users.Update(user);
-                    await dbContext.SaveChangesAsync();
+                    userQuery.AssignSite(dto.SiteId);
+                    queryDbContext.Users.Update(userQuery);
+                    await queryDbContext.SaveChangesAsync();
+
+
+                    var userCommand = await commandDbContext.Users.SingleOrDefaultAsync(x => x.Id == dto.ManagerId);
+                    userCommand.AssignSite(dto.SiteId);
+                    commandDbContext.Users.Update(userCommand);
+                    await commandDbContext.SaveChangesAsync();
+
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Site Assigned To Manager!");
                     Console.ResetColor();

@@ -20,7 +20,7 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, GetProfileRe
     {
         var user = await _dbContext.Users
            .AsNoTracking()
-           .FirstOrDefaultAsync(x => x.UserId == request.UserId, cancellationToken);
+           .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (user is null)
             return null;

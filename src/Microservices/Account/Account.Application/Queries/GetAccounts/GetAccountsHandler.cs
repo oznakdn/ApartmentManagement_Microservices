@@ -17,7 +17,6 @@ public class GetAccountsHandler : IRequestHandler<GetAccountsRequest, List<GetAc
         var accounts = await _dbContext.Users.ToListAsync(cancellationToken);
         return accounts.Select(x => new GetAccountsResponse(
             x.Id,
-            x.UserId,
             x.FullName,
             x.Email,
             x.PhoneNumber,

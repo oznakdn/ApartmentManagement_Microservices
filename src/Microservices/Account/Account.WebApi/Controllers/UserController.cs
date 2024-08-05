@@ -5,7 +5,7 @@ using Account.Application.Commands.Login;
 using Account.Application.Commands.Logout;
 using Account.Application.Commands.Register;
 using Account.Application.Commands.UploadPicture;
-using Account.Application.Notifications.AssignedRole;
+using Account.Application.Events.AssignedRole;
 using Account.Application.Queries.GetAccountById;
 using Account.Application.Queries.GetAccounts;
 using Account.Application.Queries.GetProfile;

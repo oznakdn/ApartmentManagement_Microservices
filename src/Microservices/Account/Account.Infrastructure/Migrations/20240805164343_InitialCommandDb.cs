@@ -38,6 +38,9 @@ namespace Account.Infrastructure.Migrations
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpIn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsManager = table.Column<bool>(type: "bit", nullable: false),
+                    IsResident = table.Column<bool>(type: "bit", nullable: false),
+                    IsEmployee = table.Column<bool>(type: "bit", nullable: false),
                     SiteId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UnitId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -171,10 +174,10 @@ namespace Account.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "01J49STW7D3RF9CYDA5DG8WT1Y", null, "manager", "MANAGER" },
-                    { "01J49STW7DB8BRE93EV0QBT626", null, "guard", "GUARD" },
-                    { "01J49STW7DSZWW0N7DJKVC6W8Z", null, "resident", "RESIDENT" },
-                    { "01J49STW7DTAQ33HZ0SAHV1HYX", null, "admin", "ADMIN" }
+                    { "01J4HPSQ4V1A4GSFC4GVZ8K6AY", null, "manager", "MANAGER" },
+                    { "01J4HPSQ4V25B3WNYG4DK6ES1R", null, "resident", "RESIDENT" },
+                    { "01J4HPSQ4VQTPGF6FBER0GAN24", null, "admin", "ADMIN" },
+                    { "01J4HPSQ4VV8TVCPQV9QYTEF13", null, "guard", "GUARD" }
                 });
 
             migrationBuilder.CreateIndex(

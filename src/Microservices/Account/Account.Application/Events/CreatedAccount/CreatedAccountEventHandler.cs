@@ -1,8 +1,8 @@
-﻿using Account.Domain.QueryEntities;
+﻿using Account.Domain.Entities;
 using Account.Infrastructure.Contexts;
 using MediatR;
 
-namespace Account.Application.Notifications.CreatedAccount;
+namespace Account.Application.Events.CreatedAccount;
 
 public class CreatedAccountEventHandler : INotificationHandler<CreatedAccountEvent>
 {
@@ -13,8 +13,7 @@ public class CreatedAccountEventHandler : INotificationHandler<CreatedAccountEve
     }
     public async Task Handle(CreatedAccountEvent args, CancellationToken cancellationToken)
     {
-        _dbContext.Users.Add(new UserQuery(
-            args.UserId,
+        _dbContext.Users.Add(new User(
             args.FirstName,
             args.LastName,
             args.Address,
@@ -23,7 +22,10 @@ public class CreatedAccountEventHandler : INotificationHandler<CreatedAccountEve
             args.Picture,
             args.IsManager,
             args.IsResident,
-            args.IsEmployee));
+            args.IsEmployee)
+        {
+            Id = args.Id
+        });
 
         await _dbContext.SaveChangesAsync();
     }

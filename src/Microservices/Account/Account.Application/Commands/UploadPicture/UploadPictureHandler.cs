@@ -1,4 +1,4 @@
-﻿using Account.Application.Notifications.UploadedPhoto;
+﻿using Account.Application.Events.UploadedPhoto;
 using Account.Domain.Entities;
 using FluentValidation;
 using MediatR;

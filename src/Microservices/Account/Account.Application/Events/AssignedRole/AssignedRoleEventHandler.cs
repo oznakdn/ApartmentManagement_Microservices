@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Account.Application.Notifications.AssignedRole;
+namespace Account.Application.Events.AssignedRole;
 
 public class AssignedRoleEventHandler : INotificationHandler<AssignedRoleEvent>
 {

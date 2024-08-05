@@ -6,10 +6,15 @@ public class User : IdentityUser
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
+    public string FullName => $"{FirstName} {LastName}";
     public string Address { get; private set; }
     public string? Picture { get; private set; }
     public string? RefreshToken { get; private set; }
     public DateTime? RefreshTokenExpIn { get; private set; }
+
+    public bool IsManager { get; private set; }
+    public bool IsResident { get; private set; }
+    public bool IsEmployee { get; private set; }
 
     public string? SiteId { get; private set; }
     public string? UnitId { get; private set; }
@@ -17,7 +22,7 @@ public class User : IdentityUser
 
     private User() { }
 
-    public User(string firstName, string lastName, string address, string phoneNumber, string email, string password)
+    public User(string firstName, string lastName, string address, string phoneNumber, string email, string password, bool? isManager, bool? isResident, bool? isEmployee)
     {
         Id = Ulid.NewUlid().ToString();
         FirstName = firstName;
@@ -27,9 +32,12 @@ public class User : IdentityUser
         PhoneNumber = phoneNumber;
         Email = email;
         PasswordHash = password;
+        IsManager = isManager ?? false;
+        IsResident = isResident ?? false;
+        IsEmployee = isEmployee ?? false;
     }
 
-    public User(string firstName, string lastName, string address, string phoneNumber, string email, string password, string? siteId, string? unitId)
+    public User(string firstName, string lastName, string address, string phoneNumber, string email, string password, string? siteId, string? unitId, bool? isManager, bool? isResident, bool? isEmployee)
     {
         Id = Ulid.NewUlid().ToString();
         FirstName = firstName;
@@ -41,6 +49,9 @@ public class User : IdentityUser
         PasswordHash = password;
         SiteId = siteId;
         UnitId = unitId;
+        IsManager = isManager ?? false;
+        IsResident = isResident ?? false;
+        IsEmployee = isEmployee ?? false;
     }
 
     public bool UploadPicture(string picture)
@@ -96,5 +107,20 @@ public class User : IdentityUser
     {
         RefreshToken = null;
         RefreshTokenExpIn = null;
+    }
+
+    public void AssignManager()
+    {
+        IsManager = true;
+    }
+
+    public void AssignResident()
+    {
+        IsResident = true;
+    }
+
+    public void AssignEmployee()
+    {
+        IsEmployee = true;
     }
 }

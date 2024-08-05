@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Account.Application.Notifications.CreatedAccount;
+using Account.Application.Events.CreatedAccount;
 
 namespace Account.Application.Commands.Register;
 
@@ -27,7 +27,7 @@ public class RegisterHandler : IRequestHandler<RegisterRequest, RegisterResponse
             return new RegisterResponse(false, validationResult.Errors.Select(x => x.ErrorMessage).ToArray());
 
 
-        var user = new User(request.FirstName, request.LastName, request.Address, request.PhoneNumber, request.Email, request.Password);
+        var user = new User(request.FirstName, request.LastName, request.Address, request.PhoneNumber, request.Email, request.Password,request.IsManager,request.IsResident, request.IsEmployee);
 
 
         var result = await _userManager.CreateAsync(user, request.Password);

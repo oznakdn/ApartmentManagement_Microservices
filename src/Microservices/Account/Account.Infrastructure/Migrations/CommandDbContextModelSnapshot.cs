@@ -49,6 +49,15 @@ namespace Account.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsEmployee")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsManager")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsResident")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -143,25 +152,25 @@ namespace Account.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "01J49STW7DTAQ33HZ0SAHV1HYX",
+                            Id = "01J4HPSQ4VQTPGF6FBER0GAN24",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "01J49STW7D3RF9CYDA5DG8WT1Y",
+                            Id = "01J4HPSQ4V1A4GSFC4GVZ8K6AY",
                             Name = "manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "01J49STW7DSZWW0N7DJKVC6W8Z",
+                            Id = "01J4HPSQ4V25B3WNYG4DK6ES1R",
                             Name = "resident",
                             NormalizedName = "RESIDENT"
                         },
                         new
                         {
-                            Id = "01J49STW7DB8BRE93EV0QBT626",
+                            Id = "01J4HPSQ4VV8TVCPQV9QYTEF13",
                             Name = "guard",
                             NormalizedName = "GUARD"
                         });

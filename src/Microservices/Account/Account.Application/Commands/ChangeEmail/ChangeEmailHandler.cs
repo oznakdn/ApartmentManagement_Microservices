@@ -1,4 +1,4 @@
-﻿using Account.Application.Notifications.ChangedEmail;
+﻿using Account.Application.Events.ChangedEmail;
 using Account.Domain.Entities;
 using FluentValidation;
 using MediatR;
