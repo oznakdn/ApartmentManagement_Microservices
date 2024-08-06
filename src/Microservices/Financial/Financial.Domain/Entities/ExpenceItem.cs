@@ -22,10 +22,10 @@ public class ExpenceItem : Entity
         PaymentDate = paymentDate;
     }
 
-    public void MarkAsPaid(Payment payment)
+    public void MarkAsPaid()
     {
         IsPaid = true;
-        PaymentDate = payment.PaymentDate;
+        PaymentDate = DateTime.Now;
     }
 
 
