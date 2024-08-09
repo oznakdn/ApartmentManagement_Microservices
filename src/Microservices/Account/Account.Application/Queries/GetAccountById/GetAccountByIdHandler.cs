@@ -2,10 +2,12 @@
 using Account.Infrastructure.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Account.Application.Queries.GetAccountById;
 
-public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, GetAccountsResponse>
+public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, IResult<GetAccountsResponse>>
 {
     private readonly QueryDbContext _dbContext;
     public GetAccountByIdHandler(QueryDbContext dbContext)
@@ -13,25 +15,17 @@ public class GetAccountByIdHandler : IRequestHandler<GetAccountByIdRequest, GetA
         _dbContext = dbContext;
     }
 
-    public async Task<GetAccountsResponse> Handle(GetAccountByIdRequest request, CancellationToken cancellationToken)
+    public async Task<IResult<GetAccountsResponse>> Handle(GetAccountByIdRequest request, CancellationToken cancellationToken)
     {
         var account = await _dbContext.Users
-            .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+           .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
 
         if (account is null)
-            return null;
+            return Result<GetAccountsResponse>.Failure(message: "Account not found");
 
+        var result = account.Map();
 
-        return new GetAccountsResponse(account.Id,
-            account.FullName,
-            account.Email,
-            account.PhoneNumber,
-            account.Address,
-            account.Picture,
-            account.IsManager,
-            account.IsEmployee,
-            account.IsResident);
-
+        return Result<GetAccountsResponse>.Success(result);
     }
 }

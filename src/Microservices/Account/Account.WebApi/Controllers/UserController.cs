@@ -154,18 +154,17 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(new GetProfileRequest(userId), cancellationToken);
 
-        if (result is null)
-        {
-            return NotFound();
-        }
+        if (!result.IsSuccess)
+            return NotFound(result.Message);
 
-        await cacheService.SetAsync<GetProfileResponse>($"Profile-{userId}", result, new DistributedCacheEntryOptions
+
+        await cacheService.SetAsync<GetProfileResponse>($"Profile-{userId}", result.Value!, new DistributedCacheEntryOptions
         {
             AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(5),
             SlidingExpiration = TimeSpan.FromSeconds(30)
         });
 
-        return Ok(result);
+        return Ok(result.Value);
     }
 
 
@@ -238,9 +237,9 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(new GetAccountsRequest(), cancellationToken);
 
-        if (result is not null)
+        if (result.Values is not null)
         {
-            await cacheService.SetListAsync<GetAccountsResponse>($"GetAccounts", result, new DistributedCacheEntryOptions
+            await cacheService.SetListAsync<GetAccountsResponse>($"GetAccounts", result.Values, new DistributedCacheEntryOptions
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(5),
                 SlidingExpiration = TimeSpan.FromSeconds(30)
@@ -248,7 +247,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         }
 
 
-        return Ok(result);
+        return Ok(result.Values);
     }
 
 
@@ -262,12 +261,11 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(new GetAccountByIdRequest(id), cancellationToken);
 
-        if (result is null)
-        {
-            return NotFound();
-        }
+        if (!result.IsSuccess)
+            return NotFound(result.Message);
 
-        await cacheService.SetAsync<GetAccountsResponse>($"GetAccount-{id}", result, new DistributedCacheEntryOptions
+
+        await cacheService.SetAsync<GetAccountsResponse>($"GetAccount-{id}", result.Value!, new DistributedCacheEntryOptions
         {
             AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(5),
             SlidingExpiration = TimeSpan.FromSeconds(30)

@@ -2,10 +2,12 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Account.Application.Queries.GetProfile;
 
-public class GetProfileHandler : IRequestHandler<GetProfileRequest, GetProfileResponse>
+public class GetProfileHandler : IRequestHandler<GetProfileRequest, IResult<GetProfileResponse>>
 {
     private readonly QueryDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -16,15 +18,16 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, GetProfileRe
         _mapper = mapper;
     }
 
-    public async Task<GetProfileResponse> Handle(GetProfileRequest request, CancellationToken cancellationToken)
+    public async Task<IResult<GetProfileResponse>> Handle(GetProfileRequest request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
            .AsNoTracking()
            .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
         if (user is null)
-            return null;
+            return Result<GetProfileResponse>.Failure(message: "User not found!");
 
-        return _mapper.Map<GetProfileResponse>(user);
+        var result = user.Map();
+        return Result<GetProfileResponse>.Success(result);
     }
 }
