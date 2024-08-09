@@ -1,18 +1,18 @@
 ﻿{
   "Routes": [
-    // Account Service
-    {
-      "DownstreamScheme": "https",
-      "DownstreamPathTemplate": "/api/user/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7010
-        }
-      ],
-      "UpstreamPathTemplate": "/api/user/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
+    //// Account Service
+    //{
+    //  "DownstreamScheme": "https",
+    //  "DownstreamPathTemplate": "/api/user/{everything}",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7010
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/user/{everything}",
+    //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    //},
 
     // Apartment Service
     {
@@ -27,19 +27,19 @@
       "UpstreamPathTemplate": "/api/apartment/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
-    // Notification Service
-    {
-      "DownstreamScheme": "https",
-      "DownstreamPathTemplate": "/api/notification/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7030
-        }
-      ],
-      "UpstreamPathTemplate": "/api/notification/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
+    //// Notification Service
+    //{
+    //  "DownstreamScheme": "https",
+    //  "DownstreamPathTemplate": "/api/notification/{everything}",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7030
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/notification/{everything}",
+    //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    //},
     // Financial Service
     {
       "DownstreamScheme": "https",
@@ -52,21 +52,21 @@
       ],
       "UpstreamPathTemplate": "/api/financial/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-
-    // Meeting Service
-    {
-      "DownstreamScheme": "https",
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7050
-        }
-      ],
-      "UpstreamPathTemplate": "/api/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
+
+    //// Meeting Service
+    //{
+    //  "DownstreamScheme": "https",
+    //  "DownstreamPathTemplate": "/api/{everything}",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7050
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/api/{everything}",
+    //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    //}
 
   ],
   "GlobalConfiguration": {
