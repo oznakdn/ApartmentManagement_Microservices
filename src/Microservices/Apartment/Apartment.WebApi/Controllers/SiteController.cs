@@ -22,7 +22,7 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var result = await mediator.Send(createSite, cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result.Message);
         }
@@ -34,7 +34,7 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
     public async Task<IActionResult>AssignManagerToSite([FromBody] AssignManagerToSiteRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result.Message);
@@ -45,7 +45,7 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
     public async Task<IActionResult> AssignEmployeeToSite([FromBody] AssignEmployeeToSiteRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result.Message);

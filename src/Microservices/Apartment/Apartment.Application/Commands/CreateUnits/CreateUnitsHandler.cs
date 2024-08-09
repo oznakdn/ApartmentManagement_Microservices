@@ -2,10 +2,12 @@
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Apartment.Application.Commands.CreateUnits;
 
-public class CreateUnitsHandler : IRequestHandler<CreateUnitsRequest, CreateUnitsResponse>
+public class CreateUnitsHandler : IRequestHandler<CreateUnitsRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _notification;
@@ -15,17 +17,17 @@ public class CreateUnitsHandler : IRequestHandler<CreateUnitsRequest, CreateUnit
         _notification = notification;
     }
 
-    public async Task<CreateUnitsResponse> Handle(CreateUnitsRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreateUnitsRequest request, CancellationToken cancellationToken)
     {
         var block = await _dbContext.Blocks
-            .Include(x=>x.Units)
+            .Include(x => x.Units)
             .SingleOrDefaultAsync(x => x.Id == request.BlockId, cancellationToken);
 
         if (block is null)
-            return new CreateUnitsResponse(false, "Block not found!");
+            return Result.Failure(message: "Block not found!");
 
         if (block.Units.Count == block.TotalUnits)
-            return new CreateUnitsResponse(false, "No units available!");
+            return Result.Failure(message: "No units available!");
 
         var units = new List<Domain.Entities.Unit>();
 
@@ -43,7 +45,7 @@ public class CreateUnitsHandler : IRequestHandler<CreateUnitsRequest, CreateUnit
         var result = await _dbContext.SaveChangesAsync(cancellationToken);
 
         if (result == 0)
-            return new CreateUnitsResponse(false, "Units not created!");
+            return Result.Failure(message: "Units not created!");
 
         foreach (var unit in units)
         {
@@ -51,7 +53,7 @@ public class CreateUnitsHandler : IRequestHandler<CreateUnitsRequest, CreateUnit
 
         }
 
-        return new CreateUnitsResponse(true, "Units created successfully!");
+        return Result.Success(message: "Units created successfully!");
 
     }
 }

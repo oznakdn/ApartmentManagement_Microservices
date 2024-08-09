@@ -2,6 +2,8 @@
 using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 using Shared.Core.MessageQueue.Models;
 using Shared.Core.MessageQueue.Queues;
 using Shared.MessagePublising;
@@ -9,7 +11,7 @@ using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.CreateSite;
 
-public class CreateSiteHandler : IRequestHandler<CreateSiteRequest, CreateSiteResponse>
+public class CreateSiteHandler : IRequestHandler<CreateSiteRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _notification;
@@ -22,7 +24,7 @@ public class CreateSiteHandler : IRequestHandler<CreateSiteRequest, CreateSiteRe
         _publisher = publisher;
     }
 
-    public async Task<CreateSiteResponse> Handle(CreateSiteRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreateSiteRequest request, CancellationToken cancellationToken)
     {
         var site = new Site(request.ManagerId, request.Name, request.Address);
 
@@ -42,7 +44,7 @@ public class CreateSiteHandler : IRequestHandler<CreateSiteRequest, CreateSiteRe
 
         }
 
-        return new CreateSiteResponse(true, "Site created successfully");
+        return Result.Success(message: "Site created successfully");
 
     }
 }

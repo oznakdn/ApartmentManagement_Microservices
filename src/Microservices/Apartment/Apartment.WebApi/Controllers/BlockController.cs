@@ -16,7 +16,7 @@ public class BlockController(IMediator mediator) : ControllerBase
     {
         var result = await mediator.Send(createBlock, cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result.Message);

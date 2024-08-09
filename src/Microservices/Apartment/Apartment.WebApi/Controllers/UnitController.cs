@@ -17,7 +17,7 @@ public class UnitController(IMediator mediator) : ControllerBase
     {
         var result = await mediator.Send(createUnits, cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result.Message);
@@ -28,7 +28,7 @@ public class UnitController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> AssignResidentToUnit([FromBody] AssignResidentToUnitRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result.Message);

@@ -1,10 +1,12 @@
 ﻿using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Apartment.Application.Queries.GetSiteDetailByManagerId;
 
-public class GetSiteDetailByManagerIdHandler : IRequestHandler<GetSiteDetailByManagerIdRequest, GetSiteDetailByManagerIdResponse>
+public class GetSiteDetailByManagerIdHandler : IRequestHandler<GetSiteDetailByManagerIdRequest, IResult<GetSiteDetailByManagerIdResponse>>
 {
     private readonly QueryDbContext _dbContext;
     public GetSiteDetailByManagerIdHandler(QueryDbContext dbContext)
@@ -12,20 +14,16 @@ public class GetSiteDetailByManagerIdHandler : IRequestHandler<GetSiteDetailByMa
         _dbContext = dbContext;
     }
 
-    public async Task<GetSiteDetailByManagerIdResponse> Handle(GetSiteDetailByManagerIdRequest request, CancellationToken cancellationToken)
+    public async Task<IResult<GetSiteDetailByManagerIdResponse>> Handle(GetSiteDetailByManagerIdRequest request, CancellationToken cancellationToken)
     {
         var site = await _dbContext.Sites.Include(x=>x.Blocks).ThenInclude(x=>x.Units)
             .SingleOrDefaultAsync(x => x.ManagerId == request.ManagerId, cancellationToken);
 
         if (site is null)
-            return null;
+            return Result<GetSiteDetailByManagerIdResponse>.Failure("Site not found!");
 
-
-        return new GetSiteDetailByManagerIdResponse(
-            site.Id,
-            site.Name,
-            site.Address,
-            site.Blocks.Select(x => new GetSiteDetailBlocks(x.Name, x.TotalUnits, x.AvailableUnits,
-            x.Units.Select(y => new GetSiteDetailUnits(y.UnitNo, y.IsEmpty, y.HasCar, y.ResidentId)).ToList())).ToList());
+        var result = site.Map();
+        return Result<GetSiteDetailByManagerIdResponse>.Success(result);
+        
     }
 }

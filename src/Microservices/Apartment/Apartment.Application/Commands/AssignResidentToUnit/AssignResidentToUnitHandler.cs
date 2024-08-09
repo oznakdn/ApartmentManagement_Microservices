@@ -2,13 +2,15 @@
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 using Shared.Core.MessageQueue.Models;
 using Shared.Core.MessageQueue.Queues;
 using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.AssignResidentToUnit;
 
-public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitRequest, AssignResidentToUnitResponse>
+public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _notification;
@@ -20,13 +22,13 @@ public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitR
         _publisher = publisher;
     }
 
-    public async Task<AssignResidentToUnitResponse> Handle(AssignResidentToUnitRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(AssignResidentToUnitRequest request, CancellationToken cancellationToken)
     {
         var unit = await _dbContext.Units
             .SingleOrDefaultAsync(x => x.Id == request.UnitId, cancellationToken);
 
-        if(unit is null)
-            return new AssignResidentToUnitResponse(false, "Unit not found!");
+        if (unit is null)
+            return Result.Failure(message: "Unit not found!");
 
         unit.AssignResident(request.UserId);
 
@@ -35,7 +37,7 @@ public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitR
         var result = await _dbContext.SaveChangesAsync(cancellationToken);
 
         if (result == 0)
-            return new AssignResidentToUnitResponse(false, "Failed to assign resident to unit!");
+            return Result.Failure(message: "Failed to assign resident to unit!");
 
 
         await _notification.Publish(new AssignedResidentToUnitEvent(request.UserId, unit.Id));
@@ -47,6 +49,6 @@ public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitR
         });
 
 
-        return new AssignResidentToUnitResponse(true, "Resident assigned to unit");
+        return Result.Success(message: "Resident assigned to unit");
     }
 }

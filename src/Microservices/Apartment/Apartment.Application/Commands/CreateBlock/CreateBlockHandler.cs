@@ -3,10 +3,12 @@ using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Apartment.Application.Commands.CreateBlock;
 
-public class CreateBlockHandler : IRequestHandler<CreateBlockRequest, CreateBlockResponse>
+public class CreateBlockHandler : IRequestHandler<CreateBlockRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _notification;
@@ -16,11 +18,11 @@ public class CreateBlockHandler : IRequestHandler<CreateBlockRequest, CreateBloc
         _notification = notification;
     }
 
-    public async Task<CreateBlockResponse> Handle(CreateBlockRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreateBlockRequest request, CancellationToken cancellationToken)
     {
         var site = await _dbContext.Sites.SingleOrDefaultAsync(x => x.Id == request.SiteId, cancellationToken);
         if (site == null)
-            return new CreateBlockResponse(false, "Site not found");
+            return Result.Failure(message: "Site not found!");
 
         var block = new Block(request.Name, request.SiteId, request.TotalUnits);
         site.AddBlock(block);
@@ -28,10 +30,10 @@ public class CreateBlockHandler : IRequestHandler<CreateBlockRequest, CreateBloc
 
         var result = await _dbContext.SaveChangesAsync(cancellationToken);
         if (result < 0)
-            return new CreateBlockResponse(false, "Failed to create block");
+            return Result.Failure(message: "Failed to create block");
 
         await _notification.Publish(new CreatedBlockEvent(request.SiteId, block.Id, block.Name, block.TotalUnits));
 
-        return new CreateBlockResponse(true, "Block created successfully");
+        return Result.Success(message:"Block created successfully.");
     }
 }

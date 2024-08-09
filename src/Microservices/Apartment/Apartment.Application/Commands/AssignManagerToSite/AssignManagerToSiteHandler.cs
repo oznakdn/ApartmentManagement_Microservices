@@ -2,13 +2,15 @@
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 using Shared.Core.MessageQueue.Models;
 using Shared.Core.MessageQueue.Queues;
 using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.AssignManagerToSite;
 
-public class AssignManagerToSiteHandler : IRequestHandler<AssignManagerToSiteRequest, AssignManagerToSiteResponse>
+public class AssignManagerToSiteHandler : IRequestHandler<AssignManagerToSiteRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _notification;
@@ -21,13 +23,13 @@ public class AssignManagerToSiteHandler : IRequestHandler<AssignManagerToSiteReq
         _publisher = publisher;
     }
 
-    public async Task<AssignManagerToSiteResponse> Handle(AssignManagerToSiteRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(AssignManagerToSiteRequest request, CancellationToken cancellationToken)
     {
         var site = await _dbContext.Sites
             .SingleOrDefaultAsync(x => x.Id == request.SiteId, cancellationToken);
 
         if (site is null)
-            return new AssignManagerToSiteResponse(false, "Site not found!");
+            return Result.Failure(message: "Site not found!");
 
 
         site.AssignManager(request.UserId);
@@ -36,19 +38,19 @@ public class AssignManagerToSiteHandler : IRequestHandler<AssignManagerToSiteReq
         var result = await _dbContext.SaveChangesAsync(cancellationToken);
 
         if (result == 0)
-            return new AssignManagerToSiteResponse(false, "Failed to assign manager to site");
+            return Result.Failure(message: "Failed to assign manager to site!");
 
 
         await _notification.Publish(new AssignedManagerToSiteEvent(site.Id, request.UserId));
 
-        await _publisher.PublishAsync<AssignManagerToSiteModel>(queue: SiteQueue.ASSIGN_MANAGER, messageBody:new AssignManagerToSiteModel
+        await _publisher.PublishAsync<AssignManagerToSiteModel>(queue: SiteQueue.ASSIGN_MANAGER, messageBody: new AssignManagerToSiteModel
         {
             SiteId = site.Id,
             ManagerId = request.UserId
         });
 
 
-        return new AssignManagerToSiteResponse(true, "Manager assigned to site");
+        return Result.Success(message: "Manager assigned to site");
 
 
     }
