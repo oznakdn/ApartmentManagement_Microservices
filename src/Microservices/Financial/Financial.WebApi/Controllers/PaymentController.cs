@@ -12,7 +12,7 @@ public class PaymentController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreatePaymentRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result);

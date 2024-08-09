@@ -4,10 +4,12 @@ using Financial.Domain.Enums;
 using Financial.Infrastructure.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Financial.Application.Commands.CreatePayment;
 
-public class CreatePaymentHandler : IRequestHandler<CreatePaymentRequest, CreatePaymentResponse>
+public class CreatePaymentHandler : IRequestHandler<CreatePaymentRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly IMediator _eventHandler;
@@ -17,18 +19,18 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentRequest, Create
         _eventHandler = eventHandler;
     }
 
-    public async Task<CreatePaymentResponse> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
     {
         var expenceItem = await _dbContext.ExpenceItems.SingleOrDefaultAsync(x => x.Id == request.ExpenceItemId);
 
         if (expenceItem is null)
-            return new CreatePaymentResponse(false, "Expence item not found!");
+            return Result.Failure(message: "Expence item not found!");
 
-        if(expenceItem.IsPaid)
-            return new CreatePaymentResponse(false, "Expence item is already paid!");
+        if (expenceItem.IsPaid)
+            return Result.Failure(message: "Expence item is already paid!");
 
-        if(request.PaymentType<1 || request.PaymentType>3)
-            return new CreatePaymentResponse(false, "Invalid payment type!");
+        if (request.PaymentType < 1 || request.PaymentType > 3)
+            return Result.Failure(message: "Invalid payment type!");
 
         var payment = new Payment(expenceItem.Id, DateTime.Now, (PaymentType)request.PaymentType);
 
@@ -45,13 +47,13 @@ public class CreatePaymentHandler : IRequestHandler<CreatePaymentRequest, Create
         if (result == 0)
         {
             await _dbContext.Database.RollbackTransactionAsync();
-            return new CreatePaymentResponse(false, "Something went wrong!");
+            return Result.Failure(message: "Something went wrong!");
         }
 
         await _dbContext.Database.CommitTransactionAsync();
 
         await _eventHandler.Publish(new CreatedPaymentEvent(payment.Id, expenceItem.Id, request.PaymentType));
 
-        return new CreatePaymentResponse(true, "Payment created successfully!");
+        return Result.Success(message: "Payment created successfully!");
     }
 }

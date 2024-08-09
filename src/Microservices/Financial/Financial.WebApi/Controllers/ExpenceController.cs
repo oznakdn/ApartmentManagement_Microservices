@@ -17,10 +17,10 @@ public class ExpenceController(IMediator mediator) : ControllerBase
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if(!result.Success && result.Errors.Length > 0)
+        if(!result.IsSuccess && result.Errors.Length > 0)
             return BadRequest(result.Errors);
 
-        if(!result.Success && string.IsNullOrEmpty(result.Message))
+        if(!result.IsSuccess && string.IsNullOrEmpty(result.Message))
             return BadRequest(result.Message);
 
         return Ok(result);
@@ -32,7 +32,7 @@ public class ExpenceController(IMediator mediator) : ControllerBase
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
             return BadRequest(result.Message);
 
         return Ok(result);
