@@ -3,10 +3,12 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Account.Application.Events.CreatedAccount;
+using Shared.Core.Interfaces;
+using Shared.Core.Abstracts;
 
 namespace Account.Application.Commands.Register;
 
-public class RegisterHandler : IRequestHandler<RegisterRequest, RegisterResponse>
+public class RegisterHandler : IRequestHandler<RegisterRequest, IResult<User>>
 {
     private readonly IMediator _notification;
     private readonly UserManager<User> _userManager;
@@ -19,20 +21,20 @@ public class RegisterHandler : IRequestHandler<RegisterRequest, RegisterResponse
         _validator = validator;
     }
 
-    public async Task<RegisterResponse> Handle(RegisterRequest request, CancellationToken cancellationToken)
+    public async Task<IResult<User>> Handle(RegisterRequest request, CancellationToken cancellationToken)
     {
 
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return new RegisterResponse(false, validationResult.Errors.Select(x => x.ErrorMessage).ToArray());
+            return Result<User>.Failure(errors: validationResult.Errors.Select(x => x.ErrorMessage).ToArray());
 
 
-        var user = new User(request.FirstName, request.LastName, request.Address, request.PhoneNumber, request.Email, request.Password,request.IsManager,request.IsResident, request.IsEmployee);
+        var user = new User(request.FirstName, request.LastName, request.Address, request.PhoneNumber, request.Email, request.Password, request.IsManager, request.IsResident, request.IsEmployee);
 
 
         var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
-            return new RegisterResponse(false);
+            return Result<User>.Failure();
 
 
         await _notification.Publish(new CreatedAccountEvent(
@@ -49,6 +51,6 @@ public class RegisterHandler : IRequestHandler<RegisterRequest, RegisterResponse
             ), cancellationToken);
 
 
-        return new RegisterResponse(true, User: user);
+        return Result<User>.Success(value: user, message: "Account created successfully.");
     }
 }

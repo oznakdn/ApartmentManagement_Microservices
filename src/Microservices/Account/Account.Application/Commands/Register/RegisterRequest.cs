@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using Account.Domain.Entities;
+using MediatR;
+using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.Register;
 
-public class RegisterRequest : IRequest<RegisterResponse>
+public class RegisterRequest : IRequest<IResult<User>>
 {
 
     public string FirstName { get; set; }

@@ -28,12 +28,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        await mediator.Publish(new AssignedRoleEvent(result.User!, RoleConstant.ADMIN), cancellationToken);
+        await mediator.Publish(new AssignedRoleEvent(result.Value!, RoleConstant.ADMIN), cancellationToken);
         return Ok();
     }
 
@@ -46,12 +46,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         request.IsManager = true;
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        await mediator.Publish(new AssignedRoleEvent(result.User!, RoleConstant.MANAGER), cancellationToken);
+        await mediator.Publish(new AssignedRoleEvent(result.Value!, RoleConstant.MANAGER), cancellationToken);
         return Ok();
     }
 
@@ -62,7 +62,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         request.IsEmployee = true;
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
@@ -79,12 +79,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         request.IsResident = true;
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        await mediator.Publish(new AssignedRoleEvent(result.User!, RoleConstant.RESIDENT), cancellationToken);
+        await mediator.Publish(new AssignedRoleEvent(result.Value!, RoleConstant.RESIDENT), cancellationToken);
         return Ok();
     }
 
@@ -94,7 +94,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest(result.Message);
         }
@@ -112,22 +112,23 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(request, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        if (!result.Success && result.Message != null)
+        if (!result.IsSuccess && result.Message != null)
         {
             return BadRequest(result.Message);
         }
-        await cacheService.SetAsync<LoginResponse>(request.Email, result, new DistributedCacheEntryOptions
+
+        await cacheService.SetAsync<LoginResponse>(request.Email, result.Value!, new DistributedCacheEntryOptions
         {
-            AbsoluteExpiration = result.Response!.AccessExpire
+            AbsoluteExpiration = result.Value!.Response!.AccessExpire
         });
 
 
-        return Ok(result.Response);
+        return Ok(result.Value.Response);
     }
 
 
@@ -136,7 +137,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var result = await mediator.Send(new LogoutRequest(refreshToken), cancellationToken);
 
-        if (!result.Success)
+        if (!result.IsSuccess)
         {
             return BadRequest();
         }
@@ -175,12 +176,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(uploadPicture, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        if (!result.Success && result.Message != null)
+        if (!result.IsSuccess && result.Message != null)
         {
             return BadRequest(result.Message);
         }
@@ -195,12 +196,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(changePassword, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        if (!result.Success && result.Message != null)
+        if (!result.IsSuccess && result.Message != null)
         {
             return BadRequest(result.Message);
         }
@@ -214,12 +215,12 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         var result = await mediator.Send(changeEmail, cancellationToken);
 
-        if (!result.Success && result.Errors.Length > 0)
+        if (!result.IsSuccess && result.Errors.Length > 0)
         {
             return BadRequest(result.Errors);
         }
 
-        if (!result.Success && result.Message != null)
+        if (!result.IsSuccess && result.Message != null)
         {
             return BadRequest(result.Message);
         }

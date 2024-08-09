@@ -3,11 +3,13 @@ using Account.Infrastructure.Contexts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Abstracts;
 using Shared.Core.Constants;
+using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.AssignGuardRole;
 
-public class AssignGuardRoleHandler : IRequestHandler<AssignGuardRoleRequest, AssignGuardRoleResponse>
+public class AssignGuardRoleHandler : IRequestHandler<AssignGuardRoleRequest, IResult>
 {
     private readonly CommandDbContext _dbContext;
     private readonly UserManager<User> _userManager;
@@ -17,22 +19,22 @@ public class AssignGuardRoleHandler : IRequestHandler<AssignGuardRoleRequest, As
         _userManager = userManager;
     }
 
-    public async Task<AssignGuardRoleResponse> Handle(AssignGuardRoleRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(AssignGuardRoleRequest request, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
             .Where(x => x.Id == request.UserId)
             .SingleOrDefaultAsync(cancellationToken);
 
         if (user is null)
-            return new AssignGuardRoleResponse(false, "User not found!");
+            return Result.Failure(message: "User not found!");
 
         if (!await _userManager.IsInRoleAsync(user, RoleConstant.GUARD))
         {
             await _userManager.AddToRoleAsync(user, RoleConstant.GUARD);
         }
 
-        return new AssignGuardRoleResponse(true, "Guard role assigned successfully!");
 
+        return Result.Success(message: "Guard role assigned successfully.");
 
     }
 }

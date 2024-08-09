@@ -3,10 +3,12 @@ using Account.Domain.Entities;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Shared.Core.Abstracts;
+using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.ChangeEmail;
 
-public class ChangeEmailHandler : IRequestHandler<ChangeEmailRequest, ChangeEmailResponse>
+public class ChangeEmailHandler : IRequestHandler<ChangeEmailRequest, IResult>
 {
     private readonly UserManager<User> _userManager;
     private readonly IMediator _notification;
@@ -19,26 +21,27 @@ public class ChangeEmailHandler : IRequestHandler<ChangeEmailRequest, ChangeEmai
         _validator = validator;
     }
 
-    public async Task<ChangeEmailResponse> Handle(ChangeEmailRequest request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(ChangeEmailRequest request, CancellationToken cancellationToken)
     {
         var validation = _validator.Validate(request);
 
         if (!validation.IsValid)
-            return new ChangeEmailResponse(false, Errors: validation.Errors.Select(x => x.ErrorMessage).ToArray());
+            return Result.Failure(errors: validation.Errors.Select(x => x.ErrorMessage).ToArray());
 
         var user = await _userManager.FindByEmailAsync(request.CurrentEmail);
 
         if (user is null)
-            return new ChangeEmailResponse(false, Message: "User not found!");
+            return Result.Failure(message: "User not found!");
 
         user.ChangeEmail(request.NewEmail);
         var result = await _userManager.UpdateAsync(user);
 
         if (!result.Succeeded)
-            return new ChangeEmailResponse(false, Message: "Email change failed!");
+            return Result.Failure(message: "Email change failed!");
 
         await _notification.Publish(new ChangedEmailEvent(user.Id, request.NewEmail));
 
-        return new ChangeEmailResponse(true, Message: "Email changed successfully", null);
+        return Result.Success(message: "Email changed successfully.");
+     
     }
 }
