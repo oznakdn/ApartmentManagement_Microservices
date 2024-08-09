@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Financial.WebApi.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/financial/[controller]/[action]")]
 [ApiController]
 public class PaymentController(IMediator mediator) : ControllerBase
 {

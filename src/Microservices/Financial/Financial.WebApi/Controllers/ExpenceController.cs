@@ -7,7 +7,7 @@ using Shared.Core.Constants;
 
 namespace Financial.WebApi.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/financial/[controller]/[action]")]
 [ApiController]
 public class ExpenceController(IMediator mediator) : ControllerBase
 {
