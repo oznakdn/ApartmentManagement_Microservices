@@ -1,8 +1,11 @@
 ﻿using Grpc.Core;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Financial.gRPC.Services;
 
+
+[Authorize]
 public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
 {
 
