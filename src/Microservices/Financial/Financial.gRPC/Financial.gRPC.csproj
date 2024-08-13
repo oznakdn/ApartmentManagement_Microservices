@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -24,6 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\Shared.Authentication\Shared.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.ExceptionHandling\Shared.ExceptionHandling.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared.Logging\Shared.Logging.csproj" />
     <ProjectReference Include="..\Financial.Application\Financial.Application.csproj" />
   </ItemGroup>
 

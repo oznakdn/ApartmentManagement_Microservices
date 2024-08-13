@@ -1,6 +1,8 @@
 using Financial.gRPC.Services;
 using Financial.Application;
 using Shared.Authentication;
+using Shared.Logging;
+using Shared.ExceptionHandling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,10 @@ builder.Services.AddJwtAuthentication(opt =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddGrpc();
+
+builder.Services.AddSerilogService();
+builder.Services.AddExceptonHandlerService();
+builder.UseSerilog();
 
 var app = builder.Build();
 
