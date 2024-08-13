@@ -24,7 +24,7 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGrpcService<GreeterService>();
+
 app.MapGrpcService<ExpencesService>();
 
 
