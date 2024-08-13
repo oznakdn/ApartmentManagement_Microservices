@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financial.Infrastructure.Migrations
 {
     [DbContext(typeof(CommandDbContext))]
-    [Migration("20240805152814_Initial_Command_db")]
+    [Migration("20240813150820_Initial_Command_db")]
     partial class Initial_Command_db
     {
         /// <inheritdoc />

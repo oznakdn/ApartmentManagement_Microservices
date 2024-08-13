@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "Financial.gRPC";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";  
+
+package expences;
+
+service Expences{
+	rpc CreateExpense (CreateExpenseRequest) returns (CreateExpenseResponse);
+	rpc CreateExpenceItems (CreateExpenceItemsRequest) returns (CreateExpenceItemsResponse);
+
+}
+
+
+
+
+message CreateExpenseRequest{
+string title = 1;
+string description = 2;
+double total_amount = 3;
+}
+
+message CreateExpenseResponse{
+bool is_success = 1;
+string message = 2;
+}
+
+
+message CreateExpenceItemsRequest{
+string expence_id = 1;
+repeated  string unit_ids = 2;
+string last_payment_date = 3;
+}
+
+message CreateExpenceItemsResponse{
+bool is_success = 1;
+string message = 2;
+}

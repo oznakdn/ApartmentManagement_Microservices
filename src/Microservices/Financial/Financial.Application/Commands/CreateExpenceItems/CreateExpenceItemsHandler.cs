@@ -21,7 +21,7 @@ public class CreateExpenceItemsHandler : IRequestHandler<CreateExpenceItemsReque
     public async Task<IResult> Handle(CreateExpenceItemsRequest request, CancellationToken cancellationToken)
     {
 
-        if (request.UnitIds.Length == 0)
+        if (request.UnitIds.ToList().Count == 0)
             return Result.Failure(message: "Unit count cannot be zero!");
 
 
@@ -32,13 +32,13 @@ public class CreateExpenceItemsHandler : IRequestHandler<CreateExpenceItemsReque
 
         var expenceItems = new List<ExpenceItem>();
 
-        for (int i = 0; i < request.UnitIds.Length; i++)
+        for (int i = 0; i < request.UnitIds.ToList().Count; i++)
         {
 
             var expenceItem = new ExpenceItem(expenceId: expence.Id,
                 unitId: request.UnitIds[i],
-                amount: expence.TotalAmount / request.UnitIds.Length,
-                lastPaymentDate: request.LastPaymentDate,
+                amount: expence.TotalAmount / request.UnitIds.ToList().Count,
+                lastPaymentDate: DateTime.Parse(request.LastPaymentDate),
                 isPaid: false,
                 paymentDate: null);
 

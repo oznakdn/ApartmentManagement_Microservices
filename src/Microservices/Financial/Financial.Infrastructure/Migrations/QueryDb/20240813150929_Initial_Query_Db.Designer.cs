@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financial.Infrastructure.Migrations.QueryDb
 {
     [DbContext(typeof(QueryDbContext))]
-    [Migration("20240805153041_Initial_Query_Db")]
+    [Migration("20240813150929_Initial_Query_Db")]
     partial class Initial_Query_Db
     {
         /// <inheritdoc />
