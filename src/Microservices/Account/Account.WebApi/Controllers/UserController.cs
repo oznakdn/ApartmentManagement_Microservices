@@ -3,6 +3,7 @@ using Account.Application.Commands.ChangeEmail;
 using Account.Application.Commands.ChangePassword;
 using Account.Application.Commands.Login;
 using Account.Application.Commands.Logout;
+using Account.Application.Commands.RefreshLogin;
 using Account.Application.Commands.Register;
 using Account.Application.Commands.UploadPicture;
 using Account.Application.Events.AssignedRole;
@@ -130,6 +131,27 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         return Ok(result.Value.Response);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> RefreshLogin([FromBody] RefreshLoginRequest request, CancellationToken cancellationToken)
+    {
+        
+        var result = await mediator.Send(request, cancellationToken);
+
+        if (!result.IsSuccess && result.Errors.Length > 0)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        if (!result.IsSuccess && result.Message != null)
+        {
+            return BadRequest(result.Message);
+        }
+
+        return Ok(result.Value!.Response);
+    }
+
+
 
 
     [HttpGet("{refreshToken}")]
