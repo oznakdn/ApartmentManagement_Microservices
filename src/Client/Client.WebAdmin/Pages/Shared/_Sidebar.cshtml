@@ -1,0 +1,46 @@
+﻿<div class="main-menu menu-fixed menu-dark menu-bg-default rounded menu-accordion menu-shadow">
+    <div class="main-menu-content">
+        <a class="navigation-brand d-none d-md-block d-lg-block d-xl-block" asp-page="/Index">
+            <span class="text-center" style="color:aliceblue;margin-left:10px;font-size:larger; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight:bold">ADMIN</span>
+        </a>
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+            @if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <li class="active">
+                    <a asp-page="/Dashboard/Index"><i class="icon-grid"></i><span class="menu-title" data-i18n="">Dashboard</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a asp-page="/Site/Index"><i class="icon-layers"></i><span class="menu-title" data-i18n="">Site</span></a>
+                </li>
+                <li class=" nav-item">
+                    <a asp-page="/Manager/Index"><i class="icon-users"></i><span class="menu-title" data-i18n="">Manager</span></a>
+                </li>
+               
+            }
+
+            <li class=" nav-item">
+                <a href="#"><i class="icon-user-following"></i><span class="menu-title" data-i18n="">Account</span></a>
+                <ul class="menu-content">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a class="menu-item" asp-page="/auth/profile">Profile</a>
+                        </li>
+                        <li>
+                            <a class="menu-item" asp-page="/auth/logout">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="menu-item" asp-page="/auth/login">Login</a>
+                        </li>
+                    }
+                    
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
