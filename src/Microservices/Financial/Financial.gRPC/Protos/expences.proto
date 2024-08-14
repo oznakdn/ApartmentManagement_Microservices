@@ -3,13 +3,25 @@ syntax = "proto3";
 option csharp_namespace = "Financial.gRPC";
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/duration.proto";  
+import "google/protobuf/duration.proto"; 
+import "google/api/annotations.proto";
 
 package expences;
 
 service Expences{
-	rpc CreateExpense (CreateExpenseRequest) returns (CreateExpenseResponse);
-	rpc CreateExpenceItems (CreateExpenceItemsRequest) returns (CreateExpenceItemsResponse);
+
+	rpc CreateExpense (CreateExpenseRequest) returns (CreateExpenseResponse){
+		option (google.api.http) = {
+			post: "/api/financial/expence/create",
+			body:"*"
+		};
+	}
+	rpc CreateExpenceItems (CreateExpenceItemsRequest) returns (CreateExpenceItemsResponse){
+		option (google.api.http) = {
+			post: "/api/financial/expence/createItems",
+			body:"*"
+		};
+	}
 
 }
 
