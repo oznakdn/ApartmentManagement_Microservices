@@ -1,14 +1,9 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using Shared.Core.Abstracts;
+﻿using Shared.Core.Abstracts;
 
 namespace Notification.Domain.Entities;
 
 public class Announcement : Entity
 {
-    //[BsonId]
-    //[BsonRepresentation(BsonType.ObjectId)]
-    //public string Id { get; set; }
     public string SenderManagerId { get; private set; }
     public string Title { get; private set; }
     public string Content { get; private set; }
