@@ -29,7 +29,6 @@ public sealed class AccountService : ClientServiceBase
         return false;
     }
 
-
     public async Task LogoutAsync()
     {
         var refreshToken = _contextAccessor.HttpContext!.Request.Cookies[CookieConst.REFRESH_TOKEN];
@@ -69,7 +68,6 @@ public sealed class AccountService : ClientServiceBase
         }
         return false;
     }
-
 
     public async Task<bool> ChangePasswordAsync(ChangePasswordRequest changePassword)
     {

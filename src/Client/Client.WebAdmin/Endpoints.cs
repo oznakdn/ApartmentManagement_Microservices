@@ -11,7 +11,7 @@ public class Endpoints
 
 
         /// <summary>
-        /// POST - BODY: Email, Password
+        /// GET - URL PARAM: RefreshToken
         /// </summary>
         public const string RefreshLogin = "https://localhost:7001/api/user/refreshLogin";
 
@@ -74,6 +74,12 @@ public class Endpoints
         /// GET
         /// </summary>
         public const string GetManagers = "https://localhost:7001/api/user/getManagers";
+
+
+        /// <summary>
+        /// DELETE - URL PARAM: userId
+        /// </summary>
+        public const string DeleteManager = "https://localhost:7001/api/user/deleteManager";
 
     }
 

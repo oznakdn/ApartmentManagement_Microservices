@@ -23,37 +23,21 @@ public class CheckAuthorization : ActionFilterAttribute, IAsyncAuthorizationFilt
             {
                 var clientService = context.HttpContext.RequestServices.GetRequiredService<HttpClient>();
 
-                string url = $"{Endpoints.Account.RefreshLogin}";
+                string url = $"{Endpoints.Account.RefreshLogin}/{refreshToken}";
 
-                var responseMessage = await clientService.PutAsJsonAsync(url, new RefreshLoginRequest { RefreshToken = refreshToken });
+                var responseMessage = await clientService.GetAsync(url);
 
 
                 if (!responseMessage.IsSuccessStatusCode)
                 {
+                    await context.HttpContext.SignOutAsync("AuthScheme");
                     context.Result = new RedirectToPageResult("/Account/Login");
+
                 }
                 else
                 {
                     var response = await responseMessage.Content.ReadFromJsonAsync<LoginResponse>();
-                    var authenticationProperties = new AuthenticationProperties();
-                    authenticationProperties.ExpiresUtc = response.AccessExpire;
-
-
-                    var authenticationTokens = new List<AuthenticationToken>
-                    {
-                       new AuthenticationToken
-                       {
-                           Name = CookieConst.ACCESS_TOKEN,
-                           Value = response.AccessToken
-                       },
-                       new AuthenticationToken
-                       {
-                           Name = CookieConst.REFRESH_TOKEN,
-                           Value = response.RefreshToken
-                       }
-                    };
-
-                    authenticationProperties.StoreTokens(authenticationTokens);
+                   
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Email, response.Email),
@@ -86,8 +70,7 @@ public class CheckAuthorization : ActionFilterAttribute, IAsyncAuthorizationFilt
                         Expires = response.RefreshExpire
                     });
 
-                    await context.HttpContext!.SignInAsync("AuthScheme", claimPrinciple, authenticationProperties);
-
+                    await context.HttpContext!.SignInAsync("AuthScheme", claimPrinciple);
 
                     context.Result = new RedirectToPageResult("/Index");
 

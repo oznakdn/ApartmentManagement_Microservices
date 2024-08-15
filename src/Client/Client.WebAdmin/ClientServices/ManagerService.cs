@@ -33,4 +33,16 @@ public class ManagerService : ClientServiceBase
         }
         return false;
     }
+
+    public async Task<bool> DeleteManagerAsync(string userId)
+    {
+        await base.AddAuthorizationHeader();
+        string url = $"{Endpoints.Account.DeleteManager}/{userId}";
+        var httpResponse = await _httpClient.DeleteAsync(url);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            return true;
+        }
+        return false;
+    }
 }
