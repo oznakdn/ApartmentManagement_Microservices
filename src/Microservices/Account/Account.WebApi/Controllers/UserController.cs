@@ -55,6 +55,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         }
 
         await mediator.Publish(new AssignedRoleEvent(result.Value!, RoleConstant.MANAGER), cancellationToken);
+        await cacheService.RemoveAsync("Managers");
         return Ok();
     }
 
@@ -305,9 +306,14 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
     [HttpGet]
     [Authorize(Roles = RoleConstant.ADMIN)]
-    public async Task<IActionResult>GetManagers(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetManagers(CancellationToken cancellationToken)
     {
+        var cacheData = await cacheService.GetAllAsync<GetManagersResponse>("Managers");
+        if (cacheData is not null)
+            return Ok(cacheData);
+
         var result = await mediator.Send(new GetManagersRequest(), cancellationToken);
+        await cacheService.SetListAsync<GetManagersResponse>("Managers", result.Values);
         return Ok(result.Values);
     }
 
