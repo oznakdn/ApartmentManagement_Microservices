@@ -6,6 +6,8 @@ using Microsoft.Extensions.Options;
 using MediatR;
 using FluentValidation;
 using Account.Application.Helpers.Token;
+using Shared.MessagePublishing;
+
 
 namespace Account.Application;
 
@@ -22,6 +24,8 @@ public static class DependencyInjection
         services.AddScoped<JwtTokenHelper>();
 
         services.AddMediatR(Assembly.GetExecutingAssembly());
+        services.AddMessagePublisherService(configuration);
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
