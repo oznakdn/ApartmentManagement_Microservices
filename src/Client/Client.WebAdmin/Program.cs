@@ -5,7 +5,11 @@ using Client.WebAdmin.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+    .AddMvcOptions(opt =>
+    {
+        opt.Filters.Add(new TokenCheckFilter(builder.Services.BuildServiceProvider().GetRequiredService<AuthorizationHandler>(), builder.Services.BuildServiceProvider()!.GetRequiredService<IHttpClientFactory>()));
+    });
 
 builder.Services.AddHttpClient<AccountService>();
 builder.Services.AddScoped<AccountService>();
@@ -50,7 +54,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();

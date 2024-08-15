@@ -99,11 +99,11 @@
                                     <div class="col py-1">
                                         @if (string.IsNullOrWhiteSpace(manager.SiteId))
                                         {
-                                            <a asp-page="/Site/Index" asp-route-managerId="@manager.Id">Assign Site</a>
+                                            <a asp-page="/Site/Index" asp-route-managerId="@manager.Id" class="btn btn-amber btn-sm">Assign Site</a>
                                         }
                                         else
                                         {
-                                            <a asp-page="/Site/Index" asp-route-siteId="@manager.SiteId" class="btn btn-blue-grey">Show Site</a>
+                                            <a asp-page="/Site/Index" asp-route-siteId="@manager.SiteId" class="btn btn-blue btn-sm">Show Site</a>
                                         }
                                     </div>
                                     <div class="col py-1">

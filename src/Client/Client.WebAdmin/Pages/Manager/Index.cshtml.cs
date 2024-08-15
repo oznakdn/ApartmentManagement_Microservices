@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Client.WebAdmin.Pages.Manager;
 
+
 public class IndexModel(ManagerService managerService, INotyfService notyfService) : PageModel
 {
 
@@ -15,7 +16,7 @@ public class IndexModel(ManagerService managerService, INotyfService notyfServic
     [BindProperty]
     public List<GetAllManagersResponse> Managers { get; set; } = new();
 
-
+   
     public async Task OnGetAsync()
     {
         var result = await managerService.GetAllManagersAsync();
