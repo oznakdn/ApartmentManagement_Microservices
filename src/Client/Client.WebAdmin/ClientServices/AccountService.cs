@@ -1,4 +1,5 @@
-﻿using Client.WebAdmin.Handlers;
+﻿using Client.WebAdmin.Constants;
+using Client.WebAdmin.Handlers;
 using Client.WebAdmin.Models.AccountModels;
 using Microsoft.AspNetCore.Authentication;
 
@@ -31,14 +32,14 @@ public sealed class AccountService : ClientServiceBase
 
     public async Task LogoutAsync()
     {
-        var refreshToken = _contextAccessor.HttpContext!.Request.Cookies["refresh_token"];
+        var refreshToken = _contextAccessor.HttpContext!.Request.Cookies[CookieConst.REFRESH_TOKEN];
         string url = $"{Endpoints.Account.Logout}/{refreshToken}";
         HttpResponseMessage httpResponse = await _httpClient.GetAsync(url);
 
         if (httpResponse.IsSuccessStatusCode)
         {
-            _contextAccessor.HttpContext!.Response.Cookies.Delete("access_token");
-            _contextAccessor.HttpContext!.Response.Cookies.Delete("refresh_token");
+            _contextAccessor.HttpContext!.Response.Cookies.Delete(CookieConst.ACCESS_TOKEN);
+            _contextAccessor.HttpContext!.Response.Cookies.Delete(CookieConst.REFRESH_TOKEN);
         }
         await _contextAccessor.HttpContext!.SignOutAsync("AuthScheme");
     }
