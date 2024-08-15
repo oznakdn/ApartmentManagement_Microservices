@@ -1,3 +1,3 @@
 ﻿namespace Account.Application.Queries.GetProfile;
 
-public record GetProfileResponse(string Id, string FullName, string Email, string PhoneNumber, string Address, string Picture, bool? IsManager, bool? IsEmployee, bool? IsResident);
+public record GetProfileResponse(string Id, string FirstName, string LastName, string? Picture, string Email, string PhoneNumber, string Address, bool? IsManager, bool? IsEmployee, bool? IsResident);
