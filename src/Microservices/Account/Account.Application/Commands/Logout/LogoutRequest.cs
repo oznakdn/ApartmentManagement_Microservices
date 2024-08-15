@@ -3,4 +3,4 @@ using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.Logout;
 
-public record LogoutRequest(string RefreshToken) : IRequest<IResult>;
+public record LogoutRequest(string RefreshToken) : IRequest<IResult<string>>;

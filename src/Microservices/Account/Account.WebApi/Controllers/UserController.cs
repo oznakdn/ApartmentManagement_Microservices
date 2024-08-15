@@ -135,7 +135,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [HttpPut]
     public async Task<IActionResult> RefreshLogin([FromBody] RefreshLoginRequest request, CancellationToken cancellationToken)
     {
-        
+
         var result = await mediator.Send(request, cancellationToken);
 
         if (!result.IsSuccess && result.Errors.Length > 0)
@@ -163,6 +163,8 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         {
             return BadRequest();
         }
+
+        await cacheService.RemoveAsync(result.Value!);
         return Ok();
     }
 

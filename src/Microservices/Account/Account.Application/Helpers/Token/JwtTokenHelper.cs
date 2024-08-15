@@ -67,13 +67,6 @@ public class JwtTokenHelper(JwtOption jwtOption, UserManager<User> userManager)
         };
     }
 
-    private string GenerateRefreshToken()
-    {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-    }
+    private string GenerateRefreshToken() => Ulid.NewUlid().ToString();
+
 }
