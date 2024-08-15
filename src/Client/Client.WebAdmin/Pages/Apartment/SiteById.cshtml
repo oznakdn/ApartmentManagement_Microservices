@@ -1,0 +1,16 @@
+﻿@page "/apartment/siteById"
+@model Client.WebAdmin.Pages.Apartment.SiteByIdModel
+
+<div class="row justify-content-center d-flex">
+    <div class="card">
+        <div class="card-header">SITE</div>
+        <div class="card-body">
+            <h6><span class="text-primary">SiteId: </span>@Model.Site.SiteId</h6>
+            <h6><span class="text-primary">Name: </span>@Model.Site.Name</h6>
+            <h6><span class="text-primary">Address: </span>@Model.Site.Address</h6>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-warning btn-sm" asp-page="/Manager/Index">Back</a>
+        </div>
+    </div>
+</div>

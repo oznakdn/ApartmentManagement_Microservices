@@ -1,27 +1,30 @@
 using AdminWebApp.Models.ManagerModels;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Client.WebAdmin.ClientServices;
+using Client.WebAdmin.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Client.WebAdmin.Pages.Manager;
 
-
+[CheckAuthorization]
 public class IndexModel(ManagerService managerService, INotyfService notyfService) : PageModel
 {
 
     [BindProperty]
     public CreateManagerRequest CreateManager { get; set; }
 
+
     [BindProperty]
     public List<GetAllManagersResponse> Managers { get; set; } = new();
 
-   
+
     public async Task OnGetAsync()
     {
         var result = await managerService.GetAllManagersAsync();
         Managers = result.ToList();
     }
+
 
     public async Task<IActionResult> OnPostAsync()
     {

@@ -5,18 +5,17 @@ using Client.WebAdmin.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages()
-    .AddMvcOptions(opt =>
-    {
-        opt.Filters.Add(new TokenCheckFilter(builder.Services.BuildServiceProvider().GetRequiredService<AuthorizationHandler>(), builder.Services.BuildServiceProvider()!.GetRequiredService<IHttpClientFactory>()));
-    });
+builder.Services.AddRazorPages();
+
 
 builder.Services.AddHttpClient<AccountService>();
 builder.Services.AddScoped<AccountService>();
 
-
 builder.Services.AddHttpClient<ManagerService>();
 builder.Services.AddScoped<ManagerService>();
+
+builder.Services.AddHttpClient<ApartmentService>();
+builder.Services.AddScoped<ApartmentService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -40,7 +39,7 @@ builder.Services.AddNotyf(conf =>
 
 builder.Services.AddTransient<RefrehTokenHandler>();
 builder.Services.AddTransient<AuthorizationHandler>();
-builder.Services.AddScoped<TokenCheckFilter>();
+builder.Services.AddScoped<CheckAuthorization>();
 
 var app = builder.Build();
 

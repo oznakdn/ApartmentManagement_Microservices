@@ -1,5 +1,6 @@
 ﻿
 using AdminWebApp.Models.SiteModels;
+using Client.WebAdmin.Models.ApartmentModels;
 
 namespace Client.WebAdmin.ClientServices;
 
@@ -44,17 +45,21 @@ public class ApartmentService : ClientServiceBase
         return false;
     }
 
-    public async Task<GetAllSiteResponse>GetSiteById(string id)
+    public async Task<GetSiteByIdResponse> GetSiteById(string id)
     {
        await base.AddAuthorizationHeader();
-        var httpResponse = await _httpClient.GetAsync($"https://localhost:7000/api/site/site/getbyid/{id}");
+        string url = $"{Endpoints.Apartment.GetSiteById}/{id}";
+        var httpResponse = await _httpClient.GetAsync(url);
         if (httpResponse.IsSuccessStatusCode)
         {
-            var response = await httpResponse.Content.ReadFromJsonAsync<GetAllSiteResponse>();
+            var response = await httpResponse.Content.ReadFromJsonAsync<GetSiteByIdResponse>();
             return response!;
         }
-        return new GetAllSiteResponse();
+
+        return null;
     }
+
+
 
     public async Task<bool> UpdateSiteAsync(EditSiteRequest editSite)
     {

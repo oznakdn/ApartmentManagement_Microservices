@@ -76,4 +76,15 @@ public class Endpoints
         public const string GetManagers = "https://localhost:7001/api/user/getManagers";
 
     }
+
+    public static class Apartment
+    {
+
+        /// <summary>
+        /// GET - URL PARAM: SiteId
+        /// </summary>
+        public const string GetSiteById = "https://localhost:7000/api/apartment/site/getSiteById";
+    }
+
+
 }
