@@ -9,6 +9,7 @@ using Account.Application.Commands.UploadPicture;
 using Account.Application.Events.AssignedRole;
 using Account.Application.Queries.GetAccountById;
 using Account.Application.Queries.GetAccounts;
+using Account.Application.Queries.GetManagers;
 using Account.Application.Queries.GetProfile;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -299,5 +300,13 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         return Ok(result);
     }
 
+
+    [HttpGet]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult>GetManagers(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetManagersRequest(), cancellationToken);
+        return Ok(result.Values);
+    }
 
 }
