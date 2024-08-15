@@ -28,6 +28,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [HttpPost]
     public async Task<ActionResult> AdminRegister([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
+        request.Password = "Admin123*";
         var result = await mediator.Send(request, cancellationToken);
 
         if (!result.IsSuccess && result.Errors.Length > 0)
@@ -44,7 +45,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [Authorize(Roles = RoleConstant.ADMIN)]
     public async Task<ActionResult> ManagerRegister([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
-
+        request.Password = "Manager123*";
         request.IsManager = true;
         var result = await mediator.Send(request, cancellationToken);
 
@@ -61,6 +62,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [Authorize(Roles = RoleConstant.MANAGER)]
     public async Task<ActionResult> EmployeeRegister([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
+        request.Password = "Employee123*";
         request.IsEmployee = true;
         var result = await mediator.Send(request, cancellationToken);
 
@@ -77,7 +79,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [Authorize(Roles = RoleConstant.MANAGER)]
     public async Task<ActionResult> ResidentRegister([FromBody] RegisterRequest request, CancellationToken cancellationToken)
     {
-
+        request.Password = "Resident123*";
         request.IsResident = true;
         var result = await mediator.Send(request, cancellationToken);
 
