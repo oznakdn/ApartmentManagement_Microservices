@@ -69,5 +69,11 @@ public class Endpoints
         /// </summary>
         public const string ManagerRegister = "https://localhost:7001/api/user/managerRegister";
 
+
+        /// <summary>
+        /// GET
+        /// </summary>
+        public const string GetManagers = "https://localhost:7001/api/user/getManagers";
+
     }
 }

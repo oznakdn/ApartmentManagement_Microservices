@@ -10,6 +10,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpClient<AccountService>();
 builder.Services.AddScoped<AccountService>();
 
+
+builder.Services.AddHttpClient<ManagerService>();
+builder.Services.AddScoped<ManagerService>();
+
 builder.Services.AddHttpContextAccessor();
 
 

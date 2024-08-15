@@ -11,7 +11,8 @@ public class ManagerService : ClientServiceBase
     public async Task<IEnumerable<GetAllManagersResponse>>GetAllManagersAsync()
     {
         base.AddAuthorizationHeader();
-        var httpResponse = await _httpClient.GetAsync("https://localhost:7000/api/auth/manager/getmanagers");
+        string url = $"{Endpoints.Account.GetManagers}";
+        var httpResponse = await _httpClient.GetAsync(url);
         if (httpResponse.IsSuccessStatusCode)
         {
             var response = await httpResponse.Content.ReadFromJsonAsync<IEnumerable<GetAllManagersResponse>>();
@@ -23,7 +24,8 @@ public class ManagerService : ClientServiceBase
     public async Task<bool>CreateManagerAsync(CreateManagerRequest createManager)
     {
         base.AddAuthorizationHeader();
-        var httpResponse = await _httpClient.PostAsJsonAsync<CreateManagerRequest>("https://localhost:7000/api/auth/manager/register",createManager);
+        string url = $"{Endpoints.Account.ManagerRegister}";
+        var httpResponse = await _httpClient.PostAsJsonAsync<CreateManagerRequest>(url,createManager);
         if (httpResponse.IsSuccessStatusCode)
         {
             return true;
