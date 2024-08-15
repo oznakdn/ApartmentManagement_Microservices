@@ -91,7 +91,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.Domain", "src\Micros
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.WebApi", "src\Microservices\Notification\Notification.WebApi\Notification.WebApi.csproj", "{23F0B9B1-DFB0-495B-9E79-AE432B23B512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Report.Infrastructure", "src\Microservices\Report\Report.Infrastructure\Report.Infrastructure.csproj", "{59369324-CBD2-4E46-A447-6459FA40DE09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.Infrastructure", "src\Microservices\Report\Report.Infrastructure\Report.Infrastructure.csproj", "{59369324-CBD2-4E46-A447-6459FA40DE09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

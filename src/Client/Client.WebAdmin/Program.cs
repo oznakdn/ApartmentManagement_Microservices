@@ -1,4 +1,5 @@
 using AspNetCoreHero.ToastNotification;
+using Client.WebAdmin.ClientServices;
 using Client.WebAdmin.Filters;
 using Client.WebAdmin.Handlers;
 
@@ -6,16 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<AccountService>();
+builder.Services.AddScoped<AccountService>();
 
 builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddAuthentication("AuthScheme")
     .AddCookie("AuthScheme", options =>
     {
-        options.LoginPath = "/Auth/Login";
-        options.LogoutPath = "/Auth/Logout";
-        options.AccessDeniedPath = "/Auth/AccessDenied";
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
     });
 
 

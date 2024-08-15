@@ -9,4 +9,6 @@ public class LoginResponse
     public DateTime AccessExpire { get; set; }
     public string RefreshToken { get; set; }
     public DateTime RefreshExpire { get; set; }
+    public string? SiteId { get; set; }
+    public string? UnitId { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Client.WebAdmin.Constants;
+using Microsoft.AspNetCore.Authentication;
 using System.Net.Http.Headers;
 
 namespace Client.WebAdmin.Handlers;
@@ -14,7 +15,7 @@ public class RefrehTokenHandler : DelegatingHandler
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var accessToken = await _contextAccessor.HttpContext!.GetTokenAsync("access_token");
+        var accessToken = await _contextAccessor.HttpContext!.GetTokenAsync(CookieConst.ACCESS_TOKEN);
 
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 

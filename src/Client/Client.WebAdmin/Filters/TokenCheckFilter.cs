@@ -1,4 +1,5 @@
-﻿using Client.WebAdmin.Handlers;
+﻿using Client.WebAdmin.Constants;
+using Client.WebAdmin.Handlers;
 using Client.WebAdmin.Models.AccountModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -17,16 +18,16 @@ public class TokenCheckFilter : IAsyncPageFilter
 
     public async Task OnPageHandlerExecutionAsync(PageHandlerExecutingContext context, PageHandlerExecutionDelegate next)
     {
-        var refreshToken = context.HttpContext.Request.Cookies["refresh_token"];
+        var refreshToken = context.HttpContext.Request.Cookies[CookieConst.REFRESH_TOKEN];
 
         if(string.IsNullOrEmpty(refreshToken))
         {
-            context.Result = new RedirectToPageResult("/Auth/Login");
+            context.Result = new RedirectToPageResult("/Account/Login");
         }
         else
         {
             
-            var accessToken = context.HttpContext.Request.Cookies["access_token"];
+            var accessToken = context.HttpContext.Request.Cookies[CookieConst.ACCESS_TOKEN];
 
             if (!string.IsNullOrEmpty(accessToken))
             {
@@ -39,7 +40,7 @@ public class TokenCheckFilter : IAsyncPageFilter
 
                 if(!httpResponse.IsSuccessStatusCode)
                 {
-                    context.Result = new RedirectToPageResult("/Auth/Login");
+                    context.Result = new RedirectToPageResult("/Account/Login");
                 }
                 else
                 {
