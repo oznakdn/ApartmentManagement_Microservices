@@ -1,5 +1,6 @@
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Client.WebAdmin.ClientServices;
+using Client.WebAdmin.Filters;
 using Client.WebAdmin.Models.AccountModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,6 +8,8 @@ using System.Security.Claims;
 
 namespace Client.WebAdmin.Pages.Account;
 
+
+[CheckAuthorization]
 public class ProfileModel(AccountService accountService, INotyfService notyfService) : PageModel
 {
     [BindProperty]
