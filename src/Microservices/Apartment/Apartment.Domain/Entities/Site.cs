@@ -39,4 +39,9 @@ public class Site : Entity , IAggregateRoot
     {
         _blocks.Remove(block);
     }
+
+    public void RemoveManager()
+    {
+        ManagerId = null;
+    }
 }
