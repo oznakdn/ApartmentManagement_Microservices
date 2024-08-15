@@ -39,8 +39,6 @@ public class RefreshLoginHandler : IRequestHandler<RefreshLoginRequest, IResult<
         await _userManager.UpdateAsync(user);
 
 
-        await _eventHandler.Publish(new LoginedEvent(user.Id, token.RefreshToken, token.RefreshExpIn));
-
         var value = new LoginResponse(
             user.Id,
             user.Email!,

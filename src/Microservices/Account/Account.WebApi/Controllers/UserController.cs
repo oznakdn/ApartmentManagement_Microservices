@@ -12,6 +12,7 @@ using Account.Application.Queries.GetAccountById;
 using Account.Application.Queries.GetAccounts;
 using Account.Application.Queries.GetManagers;
 using Account.Application.Queries.GetProfile;
+using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -112,7 +113,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
-        var cacheData = await cacheService.GetAsync<LoginResponse>(request.Email);
+        var cacheData = await cacheService.GetAsync<LoginResponse>($"Session-{request.Email}");
         if (cacheData is not null)
             return Ok(cacheData);
 
@@ -128,7 +129,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
             return BadRequest(result.Message);
         }
 
-        await cacheService.SetAsync<LoginResponse>(request.Email, result.Value!, new DistributedCacheEntryOptions
+        await cacheService.SetAsync<LoginResponse>($"Session-{request.Email}", result.Value!, new DistributedCacheEntryOptions
         {
             AbsoluteExpiration = result.Value!.AccessExpire
         });
@@ -148,6 +149,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
             return BadRequest(result.Message);
         }
 
+        await cacheService.RemoveAsync($"Session-{result.Value!.Email}");
         return Ok(result.Value);
     }
 

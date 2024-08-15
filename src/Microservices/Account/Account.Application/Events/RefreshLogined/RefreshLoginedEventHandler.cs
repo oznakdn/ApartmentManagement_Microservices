@@ -15,7 +15,7 @@ public class RefreshLoginedEventHandler : INotificationHandler<RefreshLoginedEve
     public async Task Handle(RefreshLoginedEvent args, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
-            .SingleOrDefaultAsync(x=>x.RefreshToken == args.RefreshToken, cancellationToken);
+            .SingleOrDefaultAsync(x => x.RefreshToken == args.RefreshToken, cancellationToken);
 
         user!.SetRefreshToken(args.NewRefreshToken, args.RefreshExpire);
         _dbContext.Users.Update(user);
