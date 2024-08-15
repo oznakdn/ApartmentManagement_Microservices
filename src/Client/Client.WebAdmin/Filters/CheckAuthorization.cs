@@ -1,4 +1,5 @@
 ﻿using Client.WebAdmin.Constants;
+using Client.WebAdmin.Handlers;
 using Client.WebAdmin.Models.AccountModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -31,55 +32,24 @@ public class CheckAuthorization : ActionFilterAttribute, IAsyncAuthorizationFilt
                 if (!responseMessage.IsSuccessStatusCode)
                 {
                     await context.HttpContext.SignOutAsync("AuthScheme");
+                    context.HttpContext.Response.Cookies.Delete(CookieConst.REFRESH_TOKEN);
                     context.Result = new RedirectToPageResult("/Account/Login");
-
                 }
                 else
                 {
                     var response = await responseMessage.Content.ReadFromJsonAsync<LoginResponse>();
-                   
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, response.Email),
-                        new Claim(ClaimTypes.NameIdentifier, response.Id)
-                    };
 
-                    if (!string.IsNullOrWhiteSpace(response.Role))
-                        claims.Add(new Claim(ClaimTypes.Role, response.Role!));
+                    var authorizationHandler = context.HttpContext.RequestServices.GetRequiredService<AuthorizationHandler>();
 
-                    if (!string.IsNullOrWhiteSpace(response.SiteId))
-                        claims.Add(new Claim("SiteId", response.SiteId!));
-
-                    if (!string.IsNullOrWhiteSpace(response.UnitId))
-                        claims.Add(new Claim("UnitId", response.UnitId!));
-
-
-                    var claimsIdentity = new ClaimsIdentity(claims, "AuthScheme");
-                    var claimPrinciple = new ClaimsPrincipal(claimsIdentity);
-
-
-                    context.HttpContext.Response.Cookies.Append(CookieConst.ACCESS_TOKEN, response.AccessToken, new CookieOptions
-                    {
-                        HttpOnly = false,
-                        Expires = response.AccessExpire
-                    });
-
-                    context.HttpContext.Response.Cookies.Append(CookieConst.REFRESH_TOKEN, response.RefreshToken, new CookieOptions
-                    {
-                        HttpOnly = false,
-                        Expires = response.RefreshExpire
-                    });
-
-                    await context.HttpContext!.SignInAsync("AuthScheme", claimPrinciple);
+                    await authorizationHandler.Authorize(response);
 
                     context.Result = new RedirectToPageResult("/Index");
-
                 }
 
             }
             else
             {
-
+                await context.HttpContext.SignOutAsync("AuthScheme");
                 context.Result = new RedirectToPageResult("/Account/Login");
             }
 
