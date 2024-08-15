@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using Client.WebAdmin.Constants;
+using Microsoft.AspNetCore.Authentication;
+using System.Net.Http.Headers;
 
 namespace Client.WebAdmin.ClientServices;
 
@@ -12,10 +14,19 @@ public class ClientServiceBase
         _contextAccessor = contextAccessor;
     }
 
-    public virtual void AddAuthorizationHeader()
+    public virtual async Task AddAuthorizationHeader()
     {
-        var token = _contextAccessor.HttpContext!.Request.Cookies["access_token"];
+        var token = _contextAccessor.HttpContext!.Request.Cookies[CookieConst.ACCESS_TOKEN];
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            await _contextAccessor.HttpContext.SignOutAsync();
+            _contextAccessor.HttpContext.Response.Redirect("/account/login");
+            return;
+        }
+
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        
     }
 
 }

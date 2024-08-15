@@ -46,7 +46,7 @@ public sealed class AccountService : ClientServiceBase
 
     public async Task<GetProfileResponse> GetProfileAsync(string id)
     {
-        base.AddAuthorizationHeader();
+        await base.AddAuthorizationHeader();
         string url = $"{Endpoints.Account.GetProfile}/{id}";
         var httpResponse = await _httpClient.GetAsync(url);
 
@@ -60,7 +60,7 @@ public sealed class AccountService : ClientServiceBase
 
     public async Task<bool> UploadPictureAsync(UploadPictureRequest uploadPicture)
     {
-        base.AddAuthorizationHeader();
+        await base.AddAuthorizationHeader();
         string url = $"{Endpoints.Account.UploadPhoto}";
         var httpResponse = await _httpClient.PutAsJsonAsync(url, uploadPicture);
         if (httpResponse.IsSuccessStatusCode)
@@ -73,7 +73,7 @@ public sealed class AccountService : ClientServiceBase
 
     public async Task<bool> ChangePasswordAsync(ChangePasswordRequest changePassword)
     {
-        base.AddAuthorizationHeader();
+        await base.AddAuthorizationHeader();
         string url = $"{Endpoints.Account.ChangePassword}";
         var httpResponse = await _httpClient.PutAsJsonAsync("https://localhost:7000/api/auth/admin/changepassword", changePassword);
         if (httpResponse.IsSuccessStatusCode)

@@ -93,6 +93,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.WebApi", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.Infrastructure", "src\Microservices\Report\Report.Infrastructure\Report.Infrastructure.csproj", "{59369324-CBD2-4E46-A447-6459FA40DE09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartment.Background", "src\Microservices\Apartment\Apartment.Background\Apartment.Background.csproj", "{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +237,10 @@ Global
 		{59369324-CBD2-4E46-A447-6459FA40DE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59369324-CBD2-4E46-A447-6459FA40DE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59369324-CBD2-4E46-A447-6459FA40DE09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -284,6 +290,7 @@ Global
 		{F4F06B2B-BA3A-4C6E-8AF1-1F6A5121FDE8} = {A1A26FBA-33C6-40B1-B462-3CDAB22B5EEF}
 		{23F0B9B1-DFB0-495B-9E79-AE432B23B512} = {E5D62520-6430-412B-B314-13941D793BE2}
 		{59369324-CBD2-4E46-A447-6459FA40DE09} = {A1A26FBA-33C6-40B1-B462-3CDAB22B5EEF}
+		{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7} = {71D44993-221F-4E37-B576-8FAF29006137}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3558D337-5CD4-4BC1-AF82-FE1A24EE2E1E}

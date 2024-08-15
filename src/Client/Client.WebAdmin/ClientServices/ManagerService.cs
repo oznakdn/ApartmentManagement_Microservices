@@ -8,9 +8,9 @@ public class ManagerService : ClientServiceBase
     {
     }
 
-    public async Task<IEnumerable<GetAllManagersResponse>>GetAllManagersAsync()
+    public async Task<IEnumerable<GetAllManagersResponse>> GetAllManagersAsync()
     {
-        base.AddAuthorizationHeader();
+        await base.AddAuthorizationHeader();
         string url = $"{Endpoints.Account.GetManagers}";
         var httpResponse = await _httpClient.GetAsync(url);
         if (httpResponse.IsSuccessStatusCode)
@@ -21,11 +21,12 @@ public class ManagerService : ClientServiceBase
         return Enumerable.Empty<GetAllManagersResponse>();
     }
 
-    public async Task<bool>CreateManagerAsync(CreateManagerRequest createManager)
+    public async Task<bool> CreateManagerAsync(CreateManagerRequest createManager)
     {
-        base.AddAuthorizationHeader();
+        await base.AddAuthorizationHeader();
+
         string url = $"{Endpoints.Account.ManagerRegister}";
-        var httpResponse = await _httpClient.PostAsJsonAsync<CreateManagerRequest>(url,createManager);
+        var httpResponse = await _httpClient.PostAsJsonAsync<CreateManagerRequest>(url, createManager);
         if (httpResponse.IsSuccessStatusCode)
         {
             return true;
