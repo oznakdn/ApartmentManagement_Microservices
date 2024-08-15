@@ -109,7 +109,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var cacheData = await cacheService.GetAsync<LoginResponse>(request.Email);
         if (cacheData is not null)
-            return Ok(cacheData.Response);
+            return Ok(cacheData);
 
         var result = await mediator.Send(request, cancellationToken);
 
@@ -125,11 +125,11 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         await cacheService.SetAsync<LoginResponse>(request.Email, result.Value!, new DistributedCacheEntryOptions
         {
-            AbsoluteExpiration = result.Value!.Response!.AccessExpire
+            AbsoluteExpiration = result.Value!.AccessExpire
         });
 
 
-        return Ok(result.Value.Response);
+        return Ok(result.Value);
     }
 
     [HttpPut]
@@ -148,7 +148,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
             return BadRequest(result.Message);
         }
 
-        return Ok(result.Value!.Response);
+        return Ok(result.Value);
     }
 
 

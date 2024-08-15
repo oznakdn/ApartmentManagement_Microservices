@@ -52,14 +52,17 @@ public class LoginHandler : IRequestHandler<LoginRequest, IResult<LoginResponse>
 
         await _eventHandler.Publish(new LoginedEvent(user.Id, token.RefreshToken, token.RefreshExpIn));
 
-        var value = new LoginResponse(true, "Login Successful!", Response: new Response(
+        var value = new LoginResponse(
             user.Id,
             user.Email!,
             roles.SingleOrDefault(),
             token.AccessToken,
             token.AccessExpIn,
             token.RefreshToken,
-            token.RefreshExpIn));
+            token.RefreshExpIn,
+            user.SiteId,
+            user.UnitId
+            );
 
         return Result<LoginResponse>.Success(value);
 

@@ -41,14 +41,16 @@ public class RefreshLoginHandler : IRequestHandler<RefreshLoginRequest, IResult<
 
         await _eventHandler.Publish(new LoginedEvent(user.Id, token.RefreshToken, token.RefreshExpIn));
 
-        var value = new LoginResponse(true, "Login Successful!", Response: new Response(
+        var value = new LoginResponse(
             user.Id,
             user.Email!,
             roles.SingleOrDefault(),
             token.AccessToken,
             token.AccessExpIn,
             token.RefreshToken,
-            token.RefreshExpIn));
+            token.RefreshExpIn,
+            user.SiteId,
+            user.UnitId);
 
         await _eventHandler.Publish(new RefreshLoginedEvent(request.RefreshToken, token.RefreshToken, token.RefreshExpIn));
 
