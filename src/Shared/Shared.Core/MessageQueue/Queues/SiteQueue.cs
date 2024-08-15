@@ -8,4 +8,6 @@ public class SiteQueue
     public const string ASSIGN_EMPLOYEE = "site.assign.employee";
     public const string SITE_UPDATED = "site.updated";
     public const string SITE_DELETED = "site.deleted";
+
+    public const string DELETE_MANAGER = "site.delete.manager";
 }
