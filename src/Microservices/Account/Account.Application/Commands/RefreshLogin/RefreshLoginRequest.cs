@@ -4,7 +4,5 @@ using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.RefreshLogin;
 
-public class RefreshLoginRequest:IRequest<IResult<LoginResponse>>
-{
-    public string RefreshToken { get; set; }
-}
+public record RefreshLoginRequest(string RefreshToken) :IRequest<IResult<LoginResponse>>;
+

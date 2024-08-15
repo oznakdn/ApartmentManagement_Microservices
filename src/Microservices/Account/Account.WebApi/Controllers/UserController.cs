@@ -1,6 +1,7 @@
 ﻿using Account.Application.Commands.AssignGuardRole;
 using Account.Application.Commands.ChangeEmail;
 using Account.Application.Commands.ChangePassword;
+using Account.Application.Commands.DeleteManager;
 using Account.Application.Commands.Login;
 using Account.Application.Commands.Logout;
 using Account.Application.Commands.RefreshLogin;
@@ -136,18 +137,13 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         return Ok(result.Value);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> RefreshLogin([FromBody] RefreshLoginRequest request, CancellationToken cancellationToken)
+
+    [HttpGet("{refreshToken}")]
+    public async Task<IActionResult> RefreshLogin(string refreshToken, CancellationToken cancellationToken)
     {
+        var result = await mediator.Send(new RefreshLoginRequest(refreshToken), cancellationToken);
 
-        var result = await mediator.Send(request, cancellationToken);
-
-        if (!result.IsSuccess && result.Errors.Length > 0)
-        {
-            return BadRequest(result.Errors);
-        }
-
-        if (!result.IsSuccess && result.Message != null)
+        if (!result.IsSuccess)
         {
             return BadRequest(result.Message);
         }
@@ -316,5 +312,19 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         await cacheService.SetListAsync<GetManagersResponse>("Managers", result.Values);
         return Ok(result.Values);
     }
+
+
+    [HttpDelete("{userId}")]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult>DeleteManager(string userId, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new DeleteManagerRequest(userId), cancellationToken);
+        if(!result.IsSuccess)
+            return NotFound(result.Message);
+
+        await cacheService.RemoveAsync("Managers");
+        return Ok(result.Message);
+    }
+
 
 }
