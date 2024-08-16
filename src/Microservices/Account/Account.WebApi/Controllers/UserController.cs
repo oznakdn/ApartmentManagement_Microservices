@@ -10,6 +10,7 @@ using Account.Application.Commands.UploadPicture;
 using Account.Application.Events.AssignedRole;
 using Account.Application.Queries.GetAccountById;
 using Account.Application.Queries.GetAccounts;
+using Account.Application.Queries.GetManagerById;
 using Account.Application.Queries.GetManagers;
 using Account.Application.Queries.GetProfile;
 using Azure.Core;
@@ -266,7 +267,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
 
         if (result.Values is not null)
         {
-            await cacheService.SetListAsync<GetAccountsResponse>($"GetAccounts", result.Values, new DistributedCacheEntryOptions
+            await cacheService.SetAsync<GetAccountsResponse>($"GetAccounts", result.Values, new DistributedCacheEntryOptions
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(5),
                 SlidingExpiration = TimeSpan.FromSeconds(30)
@@ -306,25 +307,50 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
     [Authorize(Roles = RoleConstant.ADMIN)]
     public async Task<IActionResult> GetManagers(CancellationToken cancellationToken)
     {
-        var cacheData = await cacheService.GetAllAsync<GetManagersResponse>("Managers");
+        var cacheData = await cacheService.GetAllAsync<GetManagersResponse>("GetManagers");
         if (cacheData is not null)
             return Ok(cacheData);
 
         var result = await mediator.Send(new GetManagersRequest(), cancellationToken);
-        await cacheService.SetListAsync<GetManagersResponse>("Managers", result.Values);
+
+        if (result.IsSuccess && result.Values is not null)
+        {
+            await cacheService.SetAsync<GetManagersResponse>("GetManagers", result.Values);
+        }
+
         return Ok(result.Values);
     }
 
 
-    [HttpDelete("{userId}")]
+    [HttpGet("{userId}")]
     [Authorize(Roles = RoleConstant.ADMIN)]
-    public async Task<IActionResult>DeleteManager(string userId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetManagerById(string userId, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new DeleteManagerRequest(userId), cancellationToken);
-        if(!result.IsSuccess)
+        var cacheData = await cacheService.GetAsync<GetManagersResponse>($"Manager-{userId}");
+        if (cacheData is not null)
+            return Ok(cacheData);
+
+        var result = await mediator.Send(new GetManagerByIdRequest(userId), cancellationToken);
+
+        if (!result.IsSuccess)
             return NotFound(result.Message);
 
-        await cacheService.RemoveAsync("Managers");
+        await cacheService.SetAsync<GetManagersResponse>("Managers", result.Value!);
+        return Ok(result.Value);
+    }
+
+
+
+
+    [HttpDelete("{userId}")]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult> DeleteManager(string userId, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new DeleteManagerRequest(userId), cancellationToken);
+        if (!result.IsSuccess)
+            return NotFound(result.Message);
+
+        await cacheService.RemoveAsync("GetManagers");
         return Ok(result.Message);
     }
 
