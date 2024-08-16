@@ -93,7 +93,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notification.WebApi", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Report.Infrastructure", "src\Microservices\Report\Report.Infrastructure\Report.Infrastructure.csproj", "{59369324-CBD2-4E46-A447-6459FA40DE09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartment.Background", "src\Microservices\Apartment\Apartment.Background\Apartment.Background.csproj", "{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Apartment.Background", "src\Microservices\Apartment\Apartment.Background\Apartment.Background.csproj", "{17C866E3-CF18-4BE4-AF54-A973AD9AB9D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

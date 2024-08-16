@@ -69,9 +69,6 @@
             <div class="col-12 text-center">
                 <div class="row px-1">
                     <div class="col py-1">
-                        <p class="mb-0">Id</p>
-                    </div>
-                    <div class="col py-1">
                         <p class="mb-0">First Name</p>
                     </div>
                     <div class="col py-1">
@@ -86,9 +83,6 @@
                     <div class="col py-1">
                         <p class="mb-0">Address</p>
                     </div>
-                    <div class="col py-1">
-                        <p class="mb-0">ACTIONS</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -96,46 +90,31 @@
             @foreach (var manager in Model.Managers)
             {
                 <section class="card pull-up">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="col-12 text-center">
-                                <div class="row">
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Id: </span> @manager.Id</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Name: </span> @manager.FirstName</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Name: </span> @manager.LastName</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Phone: </span> @manager.PhoneNumber</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Email: </span> @manager.Email</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Address: </span> @manager.Address</p>
-                                    </div>
-                                    <div class="col py-1">
-                                        <form method="post" asp-page-handler="Delete">
-                                            <input type="hidden" name="userId" value="@manager.Id" />
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
-                                        @if (string.IsNullOrWhiteSpace(manager.SiteId))
-                                        {
-                                            <a asp-page="/Site/Index" asp-route-managerId="@manager.Id" class="btn btn-amber btn-sm">Assign Site</a>
-                                        }
-                                        else
-                                        {
-                                            <a asp-page="/Apartment/SiteById" asp-route-siteId="@manager.SiteId" class="btn btn-blue btn-sm">Show Site</a>
-                                        }
+                    <a asp-page="/Manager/Detail" asp-route-managerId="@manager.Id">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="col-12 text-center">
+                                    <div class="row">
+                                        <div class="col py-1">
+                                            <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Name: </span> @manager.FirstName</p>
+                                        </div>
+                                        <div class="col py-1">
+                                            <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Last Name: </span> @manager.LastName</p>
+                                        </div>
+                                        <div class="col py-1">
+                                            <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Phone: </span> @manager.PhoneNumber</p>
+                                        </div>
+                                        <div class="col py-1">
+                                            <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Email: </span> @manager.Email</p>
+                                        </div>
+                                        <div class="col py-1">
+                                            <p class="mb-0"><span class="d-inline-block d-md-none text-bold-700">Address: </span> @manager.Address</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </section>
             }
         </div>

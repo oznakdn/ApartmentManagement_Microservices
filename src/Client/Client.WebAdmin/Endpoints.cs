@@ -75,6 +75,11 @@ public class Endpoints
         /// </summary>
         public const string GetManagers = "https://localhost:7001/api/user/getManagers";
 
+        /// <summary>
+        /// GET - URL PARAM: userId
+        /// </summary>
+        public const string GetManagerById = "https://localhost:7001/api/user/getManagerById";
+
 
         /// <summary>
         /// DELETE - URL PARAM: userId

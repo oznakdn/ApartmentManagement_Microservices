@@ -21,6 +21,21 @@ public class ManagerService : ClientServiceBase
         return Enumerable.Empty<GetAllManagersResponse>();
     }
 
+
+    public async Task<GetAllManagersResponse>GetManagerByIdAsync(string userId)
+    {
+        await base.AddAuthorizationHeader();
+        string url = $"{Endpoints.Account.GetManagerById}/{userId}";
+        var httpResponse = await _httpClient.GetAsync(url);
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            var response = await httpResponse.Content.ReadFromJsonAsync<GetAllManagersResponse>();
+            return response!;
+        }
+        return null;
+    }
+
+
     public async Task<bool> CreateManagerAsync(CreateManagerRequest createManager)
     {
         await base.AddAuthorizationHeader();
