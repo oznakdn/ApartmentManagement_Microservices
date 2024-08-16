@@ -335,7 +335,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         if (!result.IsSuccess)
             return NotFound(result.Message);
 
-        await cacheService.SetAsync<GetManagersResponse>("Managers", result.Value!);
+        await cacheService.SetAsync<GetManagersResponse>($"Manager-{userId}", result.Value!);
         return Ok(result.Value);
     }
 
@@ -351,6 +351,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
             return NotFound(result.Message);
 
         await cacheService.RemoveAsync("GetManagers");
+        await cacheService.RemoveAsync($"Manager-{userId}");
         return Ok(result.Message);
     }
 
