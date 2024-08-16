@@ -12,7 +12,7 @@
 <div class="row d-flex justify-content-end">
     <div class="col-3 text-end">
 
-        <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#createManagerModal">
+        <button type="button" class="btn btn-primary btn-sm my-3" data-bs-toggle="modal" data-bs-target="#createManagerModal">
             <i class="fa-solid fa-plus"></i> Manager
         </button>
 
@@ -90,7 +90,7 @@
             @foreach (var manager in Model.Managers)
             {
                 <section class="card pull-up">
-                    <a asp-page="/Manager/Detail" asp-route-managerId="@manager.Id">
+                    <a asp-page="/Manager/Detail" asp-route-managerId="@manager.Id" style="text-decoration:none">
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="col-12 text-center">
