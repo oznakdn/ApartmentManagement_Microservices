@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 using System.Text.Json;
 
 namespace Shared.Caching;
@@ -7,18 +8,17 @@ public class DistributedCacheService(IDistributedCache distributedCache) : IDist
 {
     public async Task<IEnumerable<T>> GetAllAsync<T>(string key)
     {
-        var stringResult = await distributedCache.GetStringAsync(key);
+        var stringResult = await distributedCache.GetAsync(key);
 
         if (stringResult == null)
             return null;
 
         return JsonSerializer.Deserialize<IEnumerable<T>>(stringResult)!;
-
     }
 
     public async Task<T?> GetAsync<T>(string key)
     {
-        var stringResult = await distributedCache.GetStringAsync(key);
+        var stringResult = await distributedCache.GetAsync(key);
 
         if (stringResult == null)
             return default;
@@ -34,24 +34,28 @@ public class DistributedCacheService(IDistributedCache distributedCache) : IDist
     public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options)
     {
         var stringResult = JsonSerializer.Serialize(value);
-        await distributedCache.SetStringAsync(key, stringResult, options);
+        var byteValue = Encoding.UTF8.GetBytes(stringResult);
+        await distributedCache.SetAsync(key, byteValue, options);
     }
 
-    public async Task SetListAsync<T>(string key, IEnumerable<T> values, DistributedCacheEntryOptions options)
+    public async Task SetAsync<T>(string key, IEnumerable<T> values, DistributedCacheEntryOptions options)
     {
         var stringResult = JsonSerializer.Serialize(values);
-        await distributedCache.SetStringAsync(key, stringResult, options);
+        var byteValue = Encoding.UTF8.GetBytes(stringResult);
+        await distributedCache.SetAsync(key, byteValue, options);
     }
 
     public async Task SetAsync<T>(string key, T value)
     {
         var stringResult = JsonSerializer.Serialize(value);
-        await distributedCache.SetStringAsync(key, stringResult);
+        var byteValue = Encoding.UTF8.GetBytes(stringResult);
+        await distributedCache.SetAsync(key, byteValue);
     }
 
-    public async Task SetListAsync<T>(string key, IEnumerable<T> values)
+    public async Task SetAsync<T>(string key, IEnumerable<T> values)
     {
         var stringResult = JsonSerializer.Serialize(values);
-        await distributedCache.SetStringAsync(key, stringResult);
+        var byteValue = Encoding.UTF8.GetBytes(stringResult);
+        await distributedCache.SetAsync(key, byteValue);
     }
 }

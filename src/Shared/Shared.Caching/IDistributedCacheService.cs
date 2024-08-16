@@ -9,8 +9,8 @@ public interface IDistributedCacheService
     Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options);
     Task SetAsync<T>(string key, T value);
 
-    Task SetListAsync<T>(string key, IEnumerable<T> values, DistributedCacheEntryOptions options);
-    Task SetListAsync<T>(string key, IEnumerable<T> values);
+    Task SetAsync<T>(string key, IEnumerable<T> values, DistributedCacheEntryOptions options);
+    Task SetAsync<T>(string key, IEnumerable<T> values);
     Task RemoveAsync(string key);
 
 }
