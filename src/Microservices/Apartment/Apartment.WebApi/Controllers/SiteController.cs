@@ -1,6 +1,7 @@
 ﻿using Apartment.Application.Commands.AssignEmployeeToSite;
 using Apartment.Application.Commands.AssignManagerToSite;
 using Apartment.Application.Commands.CreateSite;
+using Apartment.Application.Queries.GetAllSite;
 using Apartment.Application.Queries.GetSiteById;
 using Apartment.Application.Queries.GetSiteByManagerId;
 using Apartment.Application.Queries.GetSiteDetailByManagerId;
@@ -27,6 +28,8 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
         {
             return BadRequest(result.Message);
         }
+
+        await cacheService.RemoveAsync("GetSites");
         return Ok(result.Message);
     }
 
@@ -50,6 +53,25 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
             return BadRequest(result.Message);
 
         return Ok(result.Message);
+    }
+
+
+
+    [HttpGet]
+    [Authorize(Roles =RoleConstant.ADMIN)]
+    public async Task<IActionResult> GetAllSite(CancellationToken cancellationToken)
+    {
+        var cacheData = await cacheService.GetAllAsync<GetAllSiteResponse>("GetSites");
+        if (cacheData is not null)
+            return Ok(cacheData);
+
+        var result = await mediator.Send(new GetAllSiteRequest(), cancellationToken);
+        if (result is null)
+            return NotFound();
+
+        await cacheService.SetAsync("GetSites", result.Values!);
+
+        return Ok(result.Values);
     }
 
 
