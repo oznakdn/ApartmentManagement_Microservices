@@ -41,6 +41,10 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
         if (!result.IsSuccess)
             return BadRequest(result.Message);
 
+
+        await cacheService.RemoveAsync("GetManagers");
+        await cacheService.RemoveAsync("GetSites");
+
         return Ok(result.Message);
     }
 
