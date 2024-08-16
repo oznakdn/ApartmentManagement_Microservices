@@ -106,6 +106,14 @@ public class Endpoints
         /// POST - BODY: string? ManagerId, string Name, string Address
         /// </summary>
         public const string CreateSite = "https://localhost:7000/api/apartment/site/create";
+
+
+        /// <summary>
+        /// PUT - BODY: string UserId, string SiteId
+        /// </summary>
+        public const string AssignManager = "https://localhost:7000/api/apartment/site/assignManagerToSite";
+
+
     }
 
 

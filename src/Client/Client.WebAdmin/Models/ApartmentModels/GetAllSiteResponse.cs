@@ -1,4 +1,4 @@
-﻿namespace AdminWebApp.Models.SiteModels;
+﻿namespace Client.WebAdmin.Models.ApartmentModels;
 
 public class GetAllSiteResponse
 {

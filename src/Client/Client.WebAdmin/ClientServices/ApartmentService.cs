@@ -1,5 +1,4 @@
-﻿using AdminWebApp.Models.SiteModels;
-using Client.WebAdmin.Models.ApartmentModels;
+﻿using Client.WebAdmin.Models.ApartmentModels;
 
 namespace Client.WebAdmin.ClientServices;
 
@@ -38,7 +37,8 @@ public class ApartmentService : ClientServiceBase
     public async Task<bool> AssignManagerAsync(AssignManagerRequest assignManager)
     {
         await base.AddAuthorizationHeader();
-        var httpResponse = await _httpClient.PostAsJsonAsync("https://localhost:7000/api/site/site/assignmanager", assignManager);
+        string url = $"{Endpoints.Apartment.AssignManager}";
+        var httpResponse = await _httpClient.PutAsJsonAsync(url, assignManager);
         if (httpResponse.IsSuccessStatusCode)
         {
             return true;
@@ -60,18 +60,6 @@ public class ApartmentService : ClientServiceBase
         return null;
     }
 
-
-
-    public async Task<bool> UpdateSiteAsync(EditSiteRequest editSite)
-    {
-        await base.AddAuthorizationHeader();
-        var httpResponse = await _httpClient.PutAsJsonAsync<EditSiteRequest>("https://localhost:7000/api/site/site/update", editSite);
-        if (httpResponse.IsSuccessStatusCode)
-        {
-            return true;
-        }
-        return false;
-    }
 
     public async Task<bool> DeleteSiteAsync(string id)
     {

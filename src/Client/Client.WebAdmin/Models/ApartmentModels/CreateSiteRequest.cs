@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AdminWebApp.Models.SiteModels;
+namespace Client.WebAdmin.Models.ApartmentModels;
 
 public record CreateSiteRequest(string ManagerId, [Required] string Name, [Required] string Address);

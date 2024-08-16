@@ -1,4 +1,3 @@
-using AdminWebApp.Models.ManagerModels;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Client.WebAdmin.ClientServices;
 using Client.WebAdmin.Models.ApartmentModels;
@@ -8,27 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Client.WebAdmin.Pages.Apartment;
 
-public class IndexModel(ApartmentService apartmentService,ManagerService managerService, INotyfService notyfService) : PageModel
+public class AssignManagerModel(ManagerService managerService,ApartmentService apartmentService, INotyfService notyfService) : PageModel
 {
-    [BindProperty]
-    public IEnumerable<GetAllSiteResponse> Sites { get; set; } = new List<GetAllSiteResponse>();
-
-    [BindProperty]
-    public CreateManagerRequest CreateManager { get; set; } = new();
 
     [BindProperty]
     public AssignManagerRequest AssignManager { get; set; } = new();
 
-    [BindProperty]
-    public CreateSiteRequest CreateSite { get; set; }
-
     public SelectList ManagerList { get; set; }
 
-   
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(string siteId)
     {
-        Sites = await apartmentService.GetAllSiteAsync();
-
+        AssignManager.SiteId = siteId;
         var managers = await managerService.GetAllManagersAsync();
         var managersWithoutSite = managers.Where(x => x.SiteId == null).ToList();
         ManagerList = new SelectList(managersWithoutSite, "Id", "FullName");
@@ -36,17 +25,16 @@ public class IndexModel(ApartmentService apartmentService,ManagerService manager
 
     public async Task<IActionResult> OnPostAsync()
     {
+        var result = await apartmentService.AssignManagerAsync(AssignManager);
 
-        var result = await apartmentService.CreateSiteAsync(CreateSite);
         if (!result)
         {
-            notyfService.Error("Failed to create site!");
+            notyfService.Error("Failed to assign manager!");
             return Page();
         }
 
-        notyfService.Success("Site created successfully");
+        notyfService.Success("Manager assigned successfully");
         return RedirectToPage("/Apartment/Index");
-
     }
 
 }
