@@ -30,23 +30,30 @@ public class DeleteManagerHandler : IRequestHandler<DeleteManagerRequest, IResul
             return Result.Failure(message: "User not found!");
 
         _dbContext.Users.Remove(user);
-        var result = await _dbContext.SaveChangesAsync(cancellationToken);
 
-        if(result == 0)
-            return Result.Failure(message: "User not deleted!");
 
-        await _eventHandler.Publish(new DeletedManagerEvent(user.Id));
+        var isSuccess = _eventHandler.Publish(new DeletedManagerEvent(user.Id));
 
-        if (!string.IsNullOrWhiteSpace(user.SiteId))
+        if (isSuccess.IsCompletedSuccessfully)
         {
-            await _publisher.PublishAsync(queue: SiteQueue.DELETE_MANAGER, messageBody: new DeleteManagerFromSiteModel
-            {
-                ManagerId = user.Id,
-                SiteId = user.SiteId
-            });
-        }
-            
+            await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(message: "User deleted successfully!");
+            if (!string.IsNullOrWhiteSpace(user.SiteId))
+            {
+                await _publisher.PublishAsync(queue: SiteQueue.DELETE_MANAGER, messageBody: new DeleteManagerFromSiteModel
+                {
+                    ManagerId = user.Id,
+                    SiteId = user.SiteId
+                });
+            }
+
+
+            return Result.Success(message: "User deleted successfully!");
+        }
+
+        return Result.Failure(message: "Failed to delete user!");
+
+
+        
     }
 }

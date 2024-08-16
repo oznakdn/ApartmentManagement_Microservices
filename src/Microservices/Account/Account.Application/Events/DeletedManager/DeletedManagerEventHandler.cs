@@ -1,6 +1,5 @@
 ﻿using Account.Infrastructure.Contexts;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Account.Application.Events.DeletedManager;
 
@@ -16,8 +15,12 @@ public class DeletedManagerEventHandler : INotificationHandler<DeletedManagerEve
     public async Task Handle(DeletedManagerEvent args, CancellationToken cancellationToken)
     {
 
-        var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == args.UserId, cancellationToken);
+        var user = _dbContext.Users.SingleOrDefault(x => x.Id == args.UserId);
         _dbContext.Users.Remove(user);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        var result = _dbContext.SaveChanges();
+
+        if(result>0)
+            await Task.CompletedTask;
+
     }
 }
