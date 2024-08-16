@@ -38,15 +38,4 @@ public class IndexModel(ManagerService managerService, INotyfService notyfServic
         return RedirectToPage("/Manager/Index");
     }
 
-    public async Task<IActionResult>OnPostDeleteAsync(string userId)
-    {
-        var result = await managerService.DeleteManagerAsync(userId);
-        if (!result)
-        {
-            notyfService.Error("Failed to delete manager");
-            return Page();
-        }
-        notyfService.Success("Manager deleted successfully");
-        return RedirectToPage("/Manager/Index");
-    }
 }

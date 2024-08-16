@@ -1,11 +1,13 @@
 using AdminWebApp.Models.ManagerModels;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using AspNetCoreHero.ToastNotification.Notyf;
 using Client.WebAdmin.ClientServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Client.WebAdmin.Pages.Manager;
 
-public class DetailModel(ManagerService managerService) : PageModel
+public class DetailModel(ManagerService managerService, INotyfService notyfService) : PageModel
 {
     [BindProperty]
     public GetAllManagersResponse Manager { get; set; } = new();
@@ -16,5 +18,17 @@ public class DetailModel(ManagerService managerService) : PageModel
 
         if(result is not null)
         Manager = result;
+    }
+
+    public async Task<IActionResult> OnPostDeleteAsync(string userId)
+    {
+        var result = await managerService.DeleteManagerAsync(userId);
+        if (!result)
+        {
+            notyfService.Error("Failed to delete manager");
+            return Page();
+        }
+        notyfService.Success("Manager deleted successfully");
+        return RedirectToPage("/Manager/Index");
     }
 }
