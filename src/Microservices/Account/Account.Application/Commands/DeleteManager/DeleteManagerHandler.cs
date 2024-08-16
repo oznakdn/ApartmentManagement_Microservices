@@ -29,6 +29,8 @@ public class DeleteManagerHandler : IRequestHandler<DeleteManagerRequest, IResul
         if (user is null)
             return Result.Failure(message: "User not found!");
 
+
+        string siteId = user.SiteId!;
         _dbContext.Users.Remove(user);
 
 
@@ -38,12 +40,12 @@ public class DeleteManagerHandler : IRequestHandler<DeleteManagerRequest, IResul
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            if (!string.IsNullOrWhiteSpace(user.SiteId))
+            if (!string.IsNullOrWhiteSpace(siteId))
             {
                 await _publisher.PublishAsync(queue: SiteQueue.DELETE_MANAGER, messageBody: new DeleteManagerFromSiteModel
                 {
                     ManagerId = user.Id,
-                    SiteId = user.SiteId
+                    SiteId = siteId
                 });
             }
 

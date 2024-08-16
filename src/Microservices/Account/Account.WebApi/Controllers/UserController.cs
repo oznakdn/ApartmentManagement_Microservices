@@ -58,7 +58,7 @@ public class UserController(IMediator mediator, IDistributedCacheService cacheSe
         }
 
         await mediator.Publish(new AssignedRoleEvent(result.Value!, RoleConstant.MANAGER), cancellationToken);
-        await cacheService.RemoveAsync("Managers");
+        await cacheService.RemoveAsync("GetManagers");
         return Ok();
     }
 
