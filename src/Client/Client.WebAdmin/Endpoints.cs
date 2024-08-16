@@ -95,6 +95,17 @@ public class Endpoints
         /// GET - URL PARAM: SiteId
         /// </summary>
         public const string GetSiteById = "https://localhost:7000/api/apartment/site/getSiteById";
+
+
+        /// <summary>
+        /// GET
+        /// </summary>
+        public const string GetAllSite = "https://localhost:7000/api/apartment/site/getAllSite";
+
+        /// <summary>
+        /// POST - BODY: string? ManagerId, string Name, string Address
+        /// </summary>
+        public const string CreateSite = "https://localhost:7000/api/apartment/site/create";
     }
 
 

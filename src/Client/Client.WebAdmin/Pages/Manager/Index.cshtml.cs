@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Client.WebAdmin.Pages.Manager;
 
+
 [CheckAuthorization]
 public class IndexModel(ManagerService managerService, INotyfService notyfService) : PageModel
 {

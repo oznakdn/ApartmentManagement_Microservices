@@ -2,11 +2,14 @@ using AdminWebApp.Models.ManagerModels;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using AspNetCoreHero.ToastNotification.Notyf;
 using Client.WebAdmin.ClientServices;
+using Client.WebAdmin.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Client.WebAdmin.Pages.Manager;
 
+
+[CheckAuthorization]
 public class DetailModel(ManagerService managerService, INotyfService notyfService) : PageModel
 {
     [BindProperty]
