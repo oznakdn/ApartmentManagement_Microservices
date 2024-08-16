@@ -7,6 +7,6 @@ public static class GetManagerByIdMapper
 {
     public static GetManagersResponse Map(this User user)
     {
-        return new GetManagersResponse(user.Id, user.SiteId, user.FirstName, user.LastName, user.Picture, user.Email, user.PhoneNumber, user.Address);
+        return new GetManagersResponse(user.Id, user.SiteId, user.FirstName, user.LastName, user.FullName, user.Picture, user.Email, user.PhoneNumber, user.Address);
     }
 }
