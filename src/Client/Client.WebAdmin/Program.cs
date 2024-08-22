@@ -17,6 +17,9 @@ builder.Services.AddScoped<ManagerService>();
 builder.Services.AddHttpClient<ApartmentService>();
 builder.Services.AddScoped<ApartmentService>();
 
+builder.Services.AddHttpClient<AggregateService>();
+builder.Services.AddScoped<AggregateService>();
+
 builder.Services.AddHttpContextAccessor();
 
 

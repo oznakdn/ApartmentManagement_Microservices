@@ -117,4 +117,11 @@ public class Endpoints
     }
 
 
+    public static class Aggrigator
+    {
+        /// <summary>
+        /// GET
+        /// </summary>
+        public const string GetApartmentCounts = "https://localhost:7000/api/aggregator/getApartmentCounts";
+    }
 }
