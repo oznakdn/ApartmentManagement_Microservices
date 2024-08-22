@@ -1,5 +1,6 @@
 ﻿using Apartment.Application.Commands.AssignResidentToUnit;
 using Apartment.Application.Commands.CreateUnits;
+using Apartment.Application.Queries.GetUnitCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,5 +33,13 @@ public class UnitController(IMediator mediator) : ControllerBase
             return BadRequest(result.Message);
 
         return Ok(result.Message);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult> GetUnitCount(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetUnitCountRequest(), cancellationToken);
+        return Ok(result.Count);
     }
 }

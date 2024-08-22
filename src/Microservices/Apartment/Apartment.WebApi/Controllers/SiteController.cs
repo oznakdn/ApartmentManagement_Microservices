@@ -5,6 +5,7 @@ using Apartment.Application.Queries.GetAllSite;
 using Apartment.Application.Queries.GetSiteById;
 using Apartment.Application.Queries.GetSiteByManagerId;
 using Apartment.Application.Queries.GetSiteDetailByManagerId;
+using Apartment.Application.Queries.GetSiteCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -142,6 +143,14 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
         return Ok(result);
     }
 
+
+    [HttpGet]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult> GetSiteCount(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetSiteCountRequest(), cancellationToken);
+        return Ok(result.Count);
+    }
 
 
 }

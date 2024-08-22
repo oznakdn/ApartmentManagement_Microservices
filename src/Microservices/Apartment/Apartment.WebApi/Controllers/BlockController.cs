@@ -1,4 +1,5 @@
 ﻿using Apartment.Application.Commands.CreateBlock;
+using Apartment.Application.Queries.GetBlockCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,14 @@ public class BlockController(IMediator mediator) : ControllerBase
             return BadRequest(result.Message);
 
         return Ok(result.Message);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = RoleConstant.ADMIN)]
+    public async Task<IActionResult> GetBlockCount(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetBlockCountRequest(), cancellationToken);
+        return Ok(result.Count);
     }
 
 }
