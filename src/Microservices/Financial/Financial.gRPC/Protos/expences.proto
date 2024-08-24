@@ -23,7 +23,15 @@ service Expences{
 		};
 	}
 
+	rpc GetNotPaidExpenceItems(GetNotPaidExpenceItemsRequest) returns (GetNotPaidExpenceItemsResponse){
+	    option (google.api.http) = {
+			get: "/api/financial/expence/getnotpaidexpenceitems/{id}",
+			body:"*"
+		};
+	}
+
 }
+
 
 
 
@@ -49,4 +57,19 @@ string last_payment_date = 3;
 message CreateExpenceItemsResponse{
 bool is_success = 1;
 string message = 2;
+}
+
+
+message GetNotPaidExpenceItemsRequest{
+	string expence_id = 1;
+}
+
+message GetNotPaidExpenceItemsResponse{
+	repeated ItemsResponse items = 1;
+}
+
+message ItemsResponse{
+	string unit_id = 1;
+	double amount = 2;
+	string last_payment_date = 3;
 }

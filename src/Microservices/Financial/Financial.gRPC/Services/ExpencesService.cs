@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Financial.Application;
 
 namespace Financial.gRPC.Services;
 
@@ -42,6 +43,26 @@ public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
 
         return await Task.FromResult(response);
 
+    }
+
+    public override async Task<GetNotPaidExpenceItemsResponse> GetNotPaidExpenceItems(GetNotPaidExpenceItemsRequest request, ServerCallContext context)
+    {
+        var result = await mediator.Send(new Application.);
+
+
+        var response = new GetNotPaidExpenceItemsResponse();
+
+        foreach (var item in result)
+        {
+            response.Items.Add(new ItemsResponse
+            {
+                UnitId = item.UnitId,
+                Amount = Convert.ToDouble(item.Amount),
+                LastPaymentDate = item.LastPaymentDate
+            });
+        }
+
+        return await Task.FromResult(response);
     }
 
 }

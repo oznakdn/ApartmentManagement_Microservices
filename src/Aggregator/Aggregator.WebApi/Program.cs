@@ -7,6 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient<ApartmentService>();
 builder.Services.AddScoped<ApartmentService>();
 
+builder.Services.AddHttpClient<FinancialService>();
+builder.Services.AddScoped<FinancialService>();
+
 builder.Services.AddJwtAuthentication(opt =>
 {
     opt.Issuer = builder.Configuration["JwtOption:Issuer"]!;
