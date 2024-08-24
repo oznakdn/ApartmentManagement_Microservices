@@ -10,12 +10,20 @@ public class FinancialService : ServiceBase
     {
     }
 
-    public async Task<List<GetNonPaidExpenceItemsResponse>> GetNonPaidExpenceItemsAsync(string token, string expenceId)
+    public async Task<GetNonPaidExpenceItemsResponse>GetNonPaidExpenceItemsAsync(string token, string expenceId)
     {
-       AddAuthorizationHeader(token);
+        AddAuthorizationHeader(token);
         string url = $"https://localhost:7000/api/financial/expence/getnotpaidexpenceitems/{expenceId}";
-        var siteCountResponse = await _httpClient.GetStringAsync(url);
-        return JsonSerializer.Deserialize<List<GetNonPaidExpenceItemsResponse>>(siteCountResponse)!;
+        HttpResponseMessage responseMessage = await _httpClient.GetAsync(url);
+
+        if (responseMessage.IsSuccessStatusCode)
+        {
+            string siteCountResponse = await responseMessage.Content.ReadAsStringAsync();
+            var response =  JsonSerializer.Deserialize<GetNonPaidExpenceItemsResponse>(siteCountResponse)!;
+            return response;
+        }
+
+        return null;
     }
 
 
