@@ -4,11 +4,26 @@ using Shared.Authentication;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Services.AddHttpClient<ApartmentService>();
+
+builder.Services.AddHttpClient<ApartmentService>("Apartment", conf =>
+{
+    conf.BaseAddress = new Uri("https://localhost:7000/api/apartment");
+});
 builder.Services.AddScoped<ApartmentService>();
 
-builder.Services.AddHttpClient<FinancialService>();
+builder.Services.AddHttpClient<FinancialService>("Financial", conf =>
+{
+    conf.BaseAddress = new Uri("https://localhost:7000/api/financial");
+});
 builder.Services.AddScoped<FinancialService>();
+
+
+builder.Services.AddHttpClient<SiteService>("Site",conf =>
+{
+    conf.BaseAddress = new Uri("https://localhost:7000");
+});
+
+builder.Services.AddScoped<SiteService>();
 
 builder.Services.AddJwtAuthentication(opt =>
 {

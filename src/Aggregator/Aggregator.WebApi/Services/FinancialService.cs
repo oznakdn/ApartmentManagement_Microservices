@@ -6,14 +6,15 @@ namespace Aggregator.WebApi.Services;
 
 public class FinancialService : ServiceBase
 {
-    public FinancialService(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+    public FinancialService(IHttpClientFactory clientFactory)
     {
+        _httpClient = clientFactory.CreateClient("Financial");
     }
 
     public async Task<GetNonPaidExpenceItemsResponse>GetNonPaidExpenceItemsAsync(string token, string expenceId)
     {
         AddAuthorizationHeader(token);
-        string url = $"https://localhost:7000/api/financial/expence/getnotpaidexpenceitems/{expenceId}";
+        string url = $"/expence/getnotpaidexpenceitems/{expenceId}";
         HttpResponseMessage responseMessage = await _httpClient.GetAsync(url);
 
         if (responseMessage.IsSuccessStatusCode)

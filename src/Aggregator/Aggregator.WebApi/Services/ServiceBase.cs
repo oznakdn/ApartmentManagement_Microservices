@@ -2,11 +2,7 @@
 
 public abstract class ServiceBase
 {
-    protected readonly HttpClient _httpClient;
-    protected ServiceBase(IHttpClientFactory httpClientFactory)
-    {
-        _httpClient = httpClientFactory.CreateClient();
-    }
+    public HttpClient _httpClient { get; protected set; }
 
     public void AddAuthorizationHeader(string token)
     {
