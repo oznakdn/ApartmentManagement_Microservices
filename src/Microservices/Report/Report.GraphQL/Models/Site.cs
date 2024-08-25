@@ -1,4 +1,4 @@
-﻿namespace Report.GraphQL.Queries;
+﻿namespace Report.GraphQL.Models;
 
 public class Site
 {
