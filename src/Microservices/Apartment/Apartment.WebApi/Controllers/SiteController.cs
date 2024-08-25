@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Caching;
 using Shared.Core.Constants;
+using Apartment.Application.Queries.GetSiteDetailReport;
 
 namespace Apartment.Api.Controllers;
 
@@ -36,7 +37,7 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
 
     [HttpPut]
     [Authorize(Roles = RoleConstant.ADMIN)]
-    public async Task<IActionResult>AssignManagerToSite([FromBody] AssignManagerToSiteRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> AssignManagerToSite([FromBody] AssignManagerToSiteRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(request, cancellationToken);
         if (!result.IsSuccess)
@@ -63,7 +64,7 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
 
 
     [HttpGet]
-    [Authorize(Roles =RoleConstant.ADMIN)]
+    [Authorize(Roles = RoleConstant.ADMIN)]
     public async Task<IActionResult> GetAllSite(CancellationToken cancellationToken)
     {
         var cacheData = await cacheService.GetAllAsync<GetAllSiteResponse>("GetSites");
@@ -150,6 +151,15 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
     {
         var result = await mediator.Send(new GetSiteCountRequest(), cancellationToken);
         return Ok(result.Count);
+    }
+
+    [HttpGet("{siteId}")]
+    [Authorize(Roles = $"{RoleConstant.MANAGER},{RoleConstant.ADMIN}")]
+    public async Task<IActionResult> GetSiteDetailReport(string siteId, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetSiteDetailReportRequest(siteId), cancellationToken);
+        return !result.IsSuccess ? NotFound(result.Message) : Ok(result.Value);
+
     }
 
 
