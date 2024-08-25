@@ -25,21 +25,8 @@
       ],
       "UpstreamPathTemplate": "/api/financial/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    },
-    // Aggregator
-    {
-      "DownstreamScheme": "https",
-      "DownstreamPathTemplate": "/api/aggregator/{everything}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 7060
-        }
-      ],
-      "UpstreamPathTemplate": "/api/aggregator/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
-
+    
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7000"
