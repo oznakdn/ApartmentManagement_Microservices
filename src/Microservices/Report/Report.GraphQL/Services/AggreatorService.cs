@@ -23,4 +23,18 @@ public class AggreatorService : ServiceBase
         return await response.Content.ReadFromJsonAsync<Site>();
 
     }
+
+    public async Task<Expence> GetExpenceReportAsync(string token, string siteId)
+    {
+        AddAuthorizationHeader(token);
+        string url = $"/api/aggregator/getExpenceReport/{siteId}";
+        var response = await _httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+
+        return await response.Content.ReadFromJsonAsync<Expence>();
+
+    }
 }

@@ -28,4 +28,18 @@ public class Query
         return site;
     }
 
+    public async Task<Expence> GetExpenceReport(string siteId)
+    {
+        bool hasToken = _httpContextAccessor.HttpContext!.Request.Headers.TryGetValue("Authorization", out var apiKey);
+
+        if(!hasToken)
+        {
+            return null;
+        }
+
+        string token = apiKey.ToString().Split(" ")[1];
+        var expence = await _aggreatorService.GetExpenceReportAsync(token, siteId);
+        return expence;
+    }
+
 }
