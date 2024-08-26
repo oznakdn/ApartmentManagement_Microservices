@@ -136,12 +136,13 @@ public class SiteController(IMediator mediator, IDistributedCacheService cacheSe
             return NotFound();
 
 
-        await cacheService.SetAsync($"GetSiteDetailByManagerId-{managerId}", result, new DistributedCacheEntryOptions
+        await cacheService.SetAsync($"GetSiteDetailByManagerId-{managerId}", result.Value, new DistributedCacheEntryOptions
         {
             AbsoluteExpiration = DateTime.Now.AddMinutes(5),
             SlidingExpiration = TimeSpan.FromSeconds(30)
         });
-        return Ok(result);
+
+        return Ok(result.Value);
     }
 
 

@@ -10,7 +10,7 @@ public static class GetSiteDetailByManagerIdMapping
             site.Id,
             site.Name,
             site.Address,
-            site.Blocks.Select(x => new GetSiteDetailBlocks(x.Name, x.TotalUnits, x.AvailableUnits,
-            x.Units.Select(y => new GetSiteDetailUnits(y.UnitNo, y.IsEmpty, y.HasCar, y.ResidentId)).ToList())).ToList());
+            site.Blocks.Select(x => new GetSiteDetailBlocks(x.Id,x.Name, x.TotalUnits, x.AvailableUnits,
+            x.Units.Select(y => new GetSiteDetailUnits(y.Id,y.UnitNo, y.IsEmpty, y.HasCar, y.ResidentId)).ToList())).ToList());
     }
 }
