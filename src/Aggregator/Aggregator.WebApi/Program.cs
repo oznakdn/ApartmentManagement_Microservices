@@ -13,7 +13,7 @@ builder.Services.AddScoped<ApartmentService>();
 
 builder.Services.AddHttpClient<FinancialService>("Financial", conf =>
 {
-    conf.BaseAddress = new Uri("https://localhost:7000/api/financial");
+    conf.BaseAddress = new Uri("https://localhost:7000");
 });
 builder.Services.AddScoped<FinancialService>();
 

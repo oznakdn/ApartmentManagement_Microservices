@@ -55,4 +55,21 @@ public class AggregatorController(ApartmentService apartmentService, FinancialSe
         return result is null ? BadRequest() : Ok(result);
 
     }
+
+    [HttpGet("{siteId}")]
+    [Authorize(Roles = "admin,manager")]
+    public async Task<ActionResult<ApartmentCountsResponse>> GetExpenceReport(string siteId)
+    {
+        bool hasToken = HttpContext.Request.Headers.TryGetValue("Authorization", out var apiKey);
+        if (!hasToken)
+        {
+            return Unauthorized();
+        }
+
+        string token = apiKey.ToString().Split(" ")[1];
+        var result = await financialService.GetExpenceReportAsync(token, siteId);
+
+        return result is null ? BadRequest() : Ok(result);
+
+    }
 }
