@@ -35,3 +35,16 @@ app.MapGrpcService<ExpencesService>();
 
 
 app.Run();
+
+/* Migration command
+ * Write Db
+  dotnet ef migrations add InitialWritedDb --context WriteDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Financial\Financial.gRPC\Financial.gRPC.csproj
+
+  dotnet ef database update --context WriteDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Financial\Financial.gRPC\Financial.gRPC.csproj
+ 
+ * Read Db
+  dotnet ef migrations add InitialReadDb --context ReadDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Financial\Financial.gRPC\Financial.gRPC.csproj
+
+  dotnet ef database update --context ReadDbContext --startup-project C:\Users\W10\OneDrive\Desktop\ApartmentManagement_Microservices\src\Microservices\Financial\Financial.gRPC\Financial.gRPC.csproj
+ 
+ */

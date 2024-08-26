@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Financial.Infrastructure.Contexts;
 
-public class QueryDbContext : DbContext
+public class ReadDbContext : DbContext
 {
-    public QueryDbContext(DbContextOptions<QueryDbContext> options) : base(options)
+    public ReadDbContext(DbContextOptions<ReadDbContext> options) : base(options)
     {
         
     }

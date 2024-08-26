@@ -3,19 +3,16 @@ using System;
 using Financial.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Financial.Infrastructure.Migrations.QueryDb
+namespace Financial.Infrastructure.Migrations.ReadDb
 {
-    [DbContext(typeof(QueryDbContext))]
-    [Migration("20240813150929_Initial_Query_Db")]
-    partial class Initial_Query_Db
+    [DbContext(typeof(ReadDbContext))]
+    partial class ReadDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,7 +24,14 @@ namespace Financial.Infrastructure.Migrations.QueryDb
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SiteId")
                         .IsRequired()
                         .HasColumnType("longtext");
 

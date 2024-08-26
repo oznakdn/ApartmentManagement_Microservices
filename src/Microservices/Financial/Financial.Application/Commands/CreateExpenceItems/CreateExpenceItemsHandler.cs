@@ -10,9 +10,9 @@ namespace Financial.Application.Commands.CreateExpenceItems;
 
 public class CreateExpenceItemsHandler : IRequestHandler<CreateExpenceItemsRequest, IResult>
 {
-    private readonly CommandDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
     private readonly IMediator _eventHandler;
-    public CreateExpenceItemsHandler(CommandDbContext dbContext, IMediator eventHandler)
+    public CreateExpenceItemsHandler(WriteDbContext dbContext, IMediator eventHandler)
     {
         _dbContext = dbContext;
         _eventHandler = eventHandler;

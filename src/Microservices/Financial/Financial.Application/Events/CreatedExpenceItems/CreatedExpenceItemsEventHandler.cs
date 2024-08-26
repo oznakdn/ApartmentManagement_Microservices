@@ -5,9 +5,9 @@ namespace Financial.Application.Events.CreatedExpenceItems;
 
 public class CreatedExpenceItemsEventHandler : INotificationHandler<CreatedExpenceItemsEvent>
 {
-    private readonly QueryDbContext _dbContext;
+    private readonly ReadDbContext _dbContext;
 
-    public CreatedExpenceItemsEventHandler(QueryDbContext dbContext)
+    public CreatedExpenceItemsEventHandler(ReadDbContext dbContext)
     {
         _dbContext = dbContext;
     }

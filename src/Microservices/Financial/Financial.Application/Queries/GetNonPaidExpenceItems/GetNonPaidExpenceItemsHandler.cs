@@ -6,8 +6,8 @@ namespace Financial.Application.Queries.GetNonPaidExpenceItems;
 
 public class GetNonPaidExpenceItemsHandler : IRequestHandler<GetNonPaidExpenceItemsRequest, List<GetNonPaidExpenceItemsResponse>>
 {
-    private readonly QueryDbContext _dbContext;
-    public GetNonPaidExpenceItemsHandler(QueryDbContext dbContext)
+    private readonly ReadDbContext _dbContext;
+    public GetNonPaidExpenceItemsHandler(ReadDbContext dbContext)
     {
         _dbContext = dbContext;
     }

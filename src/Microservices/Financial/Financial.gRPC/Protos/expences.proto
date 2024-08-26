@@ -36,9 +36,10 @@ service Expences{
 
 
 message CreateExpenseRequest{
-string title = 1;
-string description = 2;
-double total_amount = 3;
+string site_id =1;
+string title = 2;
+string description = 3;
+double total_amount = 4;
 }
 
 message CreateExpenseResponse{

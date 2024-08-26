@@ -6,15 +6,15 @@ namespace Financial.Application.Events.CreatedExpence;
 
 public class CreatedExpenceEventHandler : INotificationHandler<CreatedExpenceEvent>
 {
-    private readonly QueryDbContext _dbContext;
-    public CreatedExpenceEventHandler(QueryDbContext dbContext)
+    private readonly ReadDbContext _dbContext;
+    public CreatedExpenceEventHandler(ReadDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
     public async Task Handle(CreatedExpenceEvent args, CancellationToken cancellationToken)
     {
-        var expence = new Expence(args.Title, args.Description, args.TotalAmount)
+        var expence = new Expence(args.SiteId, args.Title, args.Description, args.TotalAmount)
         {
             Id = args.Id,
         };

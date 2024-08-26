@@ -11,9 +11,9 @@ namespace Financial.Application.Commands.CreatePayment;
 
 public class CreatePaymentHandler : IRequestHandler<CreatePaymentRequest, IResult>
 {
-    private readonly CommandDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
     private readonly IMediator _eventHandler;
-    public CreatePaymentHandler(CommandDbContext dbContext, IMediator eventHandler)
+    public CreatePaymentHandler(WriteDbContext dbContext, IMediator eventHandler)
     {
         _dbContext = dbContext;
         _eventHandler = eventHandler;

@@ -12,7 +12,7 @@ public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
     public async override Task<CreateExpenseResponse> CreateExpense(CreateExpenseRequest request, ServerCallContext context)
     {
 
-        var result = await mediator.Send(new Application.Commands.CreateExpence.CreateExpenceRequest(request.Title, request.Description, (decimal)request.TotalAmount));
+        var result = await mediator.Send(new Application.Commands.CreateExpence.CreateExpenceRequest(request.SiteId,request.Title, request.Description, (decimal)request.TotalAmount));
 
         if(!result.IsSuccess)
             throw new RpcException(new Status(StatusCode.Internal, result.Message));

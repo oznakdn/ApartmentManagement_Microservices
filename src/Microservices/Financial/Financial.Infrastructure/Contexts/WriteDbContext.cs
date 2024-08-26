@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Financial.Infrastructure.Contexts;
 
-public class CommandDbContext : DbContext
+public class WriteDbContext : DbContext
 {
-    public CommandDbContext(DbContextOptions<CommandDbContext> options) : base(options)
+    public WriteDbContext(DbContextOptions<WriteDbContext> options) : base(options)
     {
         
     }

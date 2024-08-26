@@ -8,9 +8,9 @@ namespace Financial.Application.Events.CreatedPayment;
 
 public class CreatedPaymentEventHandler : INotificationHandler<CreatedPaymentEvent>
 {
-    private readonly QueryDbContext _dbContext;
+    private readonly ReadDbContext _dbContext;
 
-    public CreatedPaymentEventHandler(QueryDbContext dbContext)
+    public CreatedPaymentEventHandler(ReadDbContext dbContext)
     {
         _dbContext = dbContext;
     }

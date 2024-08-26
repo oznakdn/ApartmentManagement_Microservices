@@ -5,10 +5,11 @@ namespace Financial.Domain.Entities;
 
 public class Expence : Entity, IAggregateRoot
 {
-
+    public string SiteId { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public decimal TotalAmount { get; private set; }
+    public DateTime? CreatedDate { get; private set; } = DateTime.Now;
 
     private List<ExpenceItem> _expenceItems = new();
     public IReadOnlyCollection<ExpenceItem> ExpenceItems => _expenceItems.AsReadOnly();
@@ -16,11 +17,13 @@ public class Expence : Entity, IAggregateRoot
 
     private Expence() { }
 
-    public Expence(string title, string description, decimal totalAmount)
+    public Expence(string siteId,string title, string description, decimal totalAmount, DateTime? createdDate = null)
     {
+        SiteId = siteId;
         Title = title;
         Description = description;
         TotalAmount = totalAmount;
+        CreatedDate = createdDate;
     }
 
     public bool AddExpenceItem(ExpenceItem expenceItem)
