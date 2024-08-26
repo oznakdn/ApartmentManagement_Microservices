@@ -29,6 +29,12 @@ service Expences{
 		};
 	}
 
+	rpc GetExpenceReport(ExpenceReportRequest) returns (ExpenceReportResponse){
+		option (google.api.http) = {
+			get: "/api/financial/expence/getExpenceReport/{id}"
+		};
+	}
+
 }
 
 
@@ -72,4 +78,16 @@ message ItemsResponse{
 	string unit_id = 1;
 	double amount = 2;
 	string last_payment_date = 3;
+}
+
+
+message ExpenceReportRequest{
+	string id = 1;
+}
+
+message ExpenceReportResponse{
+	string title=1;
+	string description=2;
+	double amount=3;
+	string created_date=4;
 }

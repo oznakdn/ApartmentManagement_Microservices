@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Financial.Application.Queries.GetExpenceReport;
+using Grpc.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
@@ -12,9 +13,9 @@ public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
     public async override Task<CreateExpenseResponse> CreateExpense(CreateExpenseRequest request, ServerCallContext context)
     {
 
-        var result = await mediator.Send(new Application.Commands.CreateExpence.CreateExpenceRequest(request.SiteId,request.Title, request.Description, (decimal)request.TotalAmount));
+        var result = await mediator.Send(new Application.Commands.CreateExpence.CreateExpenceRequest(request.SiteId, request.Title, request.Description, (decimal)request.TotalAmount));
 
-        if(!result.IsSuccess)
+        if (!result.IsSuccess)
             throw new RpcException(new Status(StatusCode.Internal, result.Message));
 
         var response = new CreateExpenseResponse
@@ -29,7 +30,7 @@ public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
 
     public async override Task<CreateExpenceItemsResponse> CreateExpenceItems(CreateExpenceItemsRequest request, ServerCallContext context)
     {
-        var result = await mediator.Send(new Application.Commands.CreateExpenceItems.CreateExpenceItemsRequest(request.ExpenceId, request.UnitIds,request.LastPaymentDate));
+        var result = await mediator.Send(new Application.Commands.CreateExpenceItems.CreateExpenceItemsRequest(request.ExpenceId, request.UnitIds, request.LastPaymentDate));
 
         if (!result.IsSuccess)
             throw new RpcException(new Status(StatusCode.Internal, result.Message));
@@ -60,6 +61,24 @@ public class ExpencesService(IMediator mediator) : Expences.ExpencesBase
                 LastPaymentDate = item.LastPaymentDate
             });
         }
+
+        return await Task.FromResult(response);
+    }
+
+    public override async Task<ExpenceReportResponse> GetExpenceReport(ExpenceReportRequest request, ServerCallContext context)
+    {
+        var result = await mediator.Send(new GetExpenceReportRequest(request.Id), context.CancellationToken);
+
+        if(!result.IsSuccess)
+            throw new RpcException(new Status(StatusCode.Internal, result.Message!));
+
+        var response = new ExpenceReportResponse
+        {
+            Title = result.Value.Title,
+            Description = result.Value.Description,
+            Amount = Convert.ToDouble(result.Value.Amount),
+            CreatedDate = result.Value.CreatedDate
+        };
 
         return await Task.FromResult(response);
     }
