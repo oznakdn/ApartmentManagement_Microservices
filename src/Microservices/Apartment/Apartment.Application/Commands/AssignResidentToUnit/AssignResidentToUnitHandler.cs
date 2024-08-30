@@ -2,10 +2,10 @@
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Core.Abstracts;
 using Shared.Core.Interfaces;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Core.Models;
 using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.AssignResidentToUnit;
@@ -42,7 +42,7 @@ public class AssignResidentToUnitHandler : IRequestHandler<AssignResidentToUnitR
 
         await _notification.Publish(new AssignedResidentToUnitEvent(request.UserId, unit.Id));
 
-        await _publisher.PublishAsync<AssignResidentToUnitModel>(queue: SiteQueue.ASSIGN_RESIDENT, messageBody: new AssignResidentToUnitModel
+        await _publisher.PublishAsync<AssignResidentToUnitModel>(queue: QueueConstant.ASSIGN_RESIDENT, messageBody: new AssignResidentToUnitModel
         {
             UnitId = unit.Id,
             ResidentId = request.UserId

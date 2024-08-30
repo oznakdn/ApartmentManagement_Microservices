@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Constants;
+using Shared.Core.Models;
 using System.Text;
 using System.Text.Json;
 
@@ -20,7 +20,7 @@ public class DeleteManagerFromSiteConsumer
     public async Task ConsumeAsync(IModel channel)
     {
 
-        channel.QueueDeclare(queue: SiteQueue.DELETE_MANAGER, durable: true, exclusive: false, autoDelete: false);
+        channel.QueueDeclare(queue: QueueConstant.DELETE_MANAGER, durable: true, exclusive: false, autoDelete: false);
 
 
         var consumer = new EventingBasicConsumer(channel);
@@ -76,7 +76,7 @@ public class DeleteManagerFromSiteConsumer
         };
 
 
-        channel.BasicConsume(queue: SiteQueue.DELETE_MANAGER,
+        channel.BasicConsume(queue: QueueConstant.DELETE_MANAGER,
             autoAck: false,
             consumer: consumer);
 

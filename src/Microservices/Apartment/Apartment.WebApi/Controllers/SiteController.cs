@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Caching;
-using Shared.Core.Constants;
 using Apartment.Application.Queries.GetSiteDetailReport;
+using Shared.Constants;
 
 namespace Apartment.Api.Controllers;
 

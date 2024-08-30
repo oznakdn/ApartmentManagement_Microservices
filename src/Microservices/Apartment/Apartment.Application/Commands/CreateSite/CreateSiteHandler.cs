@@ -2,10 +2,10 @@
 using Apartment.Domain.Entities;
 using Apartment.Infrastructure.Context;
 using MediatR;
+using Shared.Constants;
 using Shared.Core.Abstracts;
 using Shared.Core.Interfaces;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Core.Models;
 using Shared.MessagePublising;
 
 
@@ -36,7 +36,7 @@ public class CreateSiteHandler : IRequestHandler<CreateSiteRequest, IResult>
 
         if (!string.IsNullOrWhiteSpace(request.ManagerId))
         {
-            await _publisher.PublishAsync<CreateSiteModel>(SiteQueue.SITE_CREATED, new CreateSiteModel
+            await _publisher.PublishAsync<CreateSiteModel>(QueueConstant.SITE_CREATED, new CreateSiteModel
             {
                 ManagerId = request.ManagerId,
                 SiteId = site.Id

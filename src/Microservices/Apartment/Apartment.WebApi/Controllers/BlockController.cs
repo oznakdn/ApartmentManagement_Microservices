@@ -3,7 +3,7 @@ using Apartment.Application.Queries.GetBlockCount;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Core.Constants;
+using Shared.Constants;
 
 namespace Apartment.Api.Controllers;
 

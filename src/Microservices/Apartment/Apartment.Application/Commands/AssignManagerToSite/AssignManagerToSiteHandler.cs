@@ -2,10 +2,10 @@
 using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Core.Abstracts;
 using Shared.Core.Interfaces;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Core.Models;
 using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.AssignManagerToSite;
@@ -43,7 +43,7 @@ public class AssignManagerToSiteHandler : IRequestHandler<AssignManagerToSiteReq
 
         await _notification.Publish(new AssignedManagerToSiteEvent(site.Id, request.UserId));
 
-        await _publisher.PublishAsync<AssignManagerToSiteModel>(queue: SiteQueue.ASSIGN_MANAGER, messageBody: new AssignManagerToSiteModel
+        await _publisher.PublishAsync<AssignManagerToSiteModel>(queue: QueueConstant.ASSIGN_MANAGER, messageBody: new AssignManagerToSiteModel
         {
             SiteId = site.Id,
             ManagerId = request.UserId

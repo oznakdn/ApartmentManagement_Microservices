@@ -1,10 +1,10 @@
 ﻿using Apartment.Infrastructure.Context;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Core.Abstracts;
 using Shared.Core.Interfaces;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Core.Models;
 using Shared.MessagePublising;
 
 namespace Apartment.Application.Commands.AssignEmployeeToSite;
@@ -29,7 +29,7 @@ public class AssignEmployeeToSiteHandler : IRequestHandler<AssignEmployeeToSiteR
             return Result.Failure(message: "Site not found!");
 
 
-        await _publisher.PublishAsync<AssignEmployeeToSiteModel>(queue: SiteQueue.ASSIGN_EMPLOYEE, messageBody: new AssignEmployeeToSiteModel
+        await _publisher.PublishAsync<AssignEmployeeToSiteModel>(queue: QueueConstant.ASSIGN_EMPLOYEE, messageBody: new AssignEmployeeToSiteModel
         {
             SiteId = site.Id,
             EmployeeId = request.UserId
