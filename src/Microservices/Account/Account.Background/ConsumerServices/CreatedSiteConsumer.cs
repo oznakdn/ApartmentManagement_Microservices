@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Constants;
+using Shared.Core.Models;
 using System.Text;
 using System.Text.Json;
 
@@ -20,7 +20,7 @@ public class CreatedSiteConsumer
     public async Task ConsumeAsync(IModel channel)
     {
 
-        channel.QueueDeclare(queue: SiteQueue.SITE_CREATED, durable: true, exclusive: false, autoDelete: false);
+        channel.QueueDeclare(queue: QueueConstant.SITE_CREATED, durable: true, exclusive: false, autoDelete: false);
 
 
         var consumer = new EventingBasicConsumer(channel);
@@ -76,7 +76,7 @@ public class CreatedSiteConsumer
         };
 
 
-        channel.BasicConsume(queue: SiteQueue.SITE_CREATED,
+        channel.BasicConsume(queue: QueueConstant.SITE_CREATED,
             autoAck: false,
             consumer: consumer);
 

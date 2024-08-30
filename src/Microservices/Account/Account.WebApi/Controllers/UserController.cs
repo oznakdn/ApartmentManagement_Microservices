@@ -13,13 +13,12 @@ using Account.Application.Queries.GetAccounts;
 using Account.Application.Queries.GetManagerById;
 using Account.Application.Queries.GetManagers;
 using Account.Application.Queries.GetProfile;
-using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Shared.Caching;
-using Shared.Core.Constants;
+using Shared.Constants;
 
 namespace Account.Api.Controllers;
 

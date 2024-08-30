@@ -2,10 +2,10 @@
 using Account.Infrastructure.Contexts;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Core.Abstracts;
 using Shared.Core.Interfaces;
-using Shared.Core.MessageQueue.Models;
-using Shared.Core.MessageQueue.Queues;
+using Shared.Core.Models;
 using Shared.MessagePublising;
 
 namespace Account.Application.Commands.DeleteManager;
@@ -42,7 +42,7 @@ public class DeleteManagerHandler : IRequestHandler<DeleteManagerRequest, IResul
 
             if (!string.IsNullOrWhiteSpace(siteId))
             {
-                await _publisher.PublishAsync(queue: SiteQueue.DELETE_MANAGER, messageBody: new DeleteManagerFromSiteModel
+                await _publisher.PublishAsync(queue: QueueConstant.DELETE_MANAGER, messageBody: new DeleteManagerFromSiteModel
                 {
                     ManagerId = user.Id,
                     SiteId = siteId

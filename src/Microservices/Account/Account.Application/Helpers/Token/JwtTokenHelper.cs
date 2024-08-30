@@ -1,10 +1,9 @@
 ﻿using Account.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using Shared.Core.Constants;
+using Shared.Constants;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Account.Application.Helpers.Token;

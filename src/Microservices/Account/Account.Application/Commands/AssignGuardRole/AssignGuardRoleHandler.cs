@@ -3,8 +3,8 @@ using Account.Infrastructure.Contexts;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Constants;
 using Shared.Core.Abstracts;
-using Shared.Core.Constants;
 using Shared.Core.Interfaces;
 
 namespace Account.Application.Commands.AssignGuardRole;
