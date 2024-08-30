@@ -1,6 +1,6 @@
-﻿namespace Shared.Core.MessageQueue.Queues;
+﻿namespace Shared.Constants;
 
-public class SiteQueue
+public class QueueConstant
 {
     public const string SITE_CREATED = "site.created";
     public const string ASSIGN_MANAGER = "site.assign.manager";

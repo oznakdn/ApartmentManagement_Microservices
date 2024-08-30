@@ -1,4 +1,4 @@
-﻿namespace Shared.Core.MessageQueue.Models;
+﻿namespace Shared.Core.Models;
 
 public class AssignResidentToUnitModel
 {
